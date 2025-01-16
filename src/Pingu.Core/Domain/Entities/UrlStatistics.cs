@@ -6,11 +6,10 @@ public class UrlStatistics
     public Guid ShortenedUrlId { get; private set; }
     public ShortenedUrl ShortenedUrl { get; private set; }
 
-    // TODO:
     // Estatísticas gerais
-    // public int TotalClicks { get; private set; }
-    // public DateTime LastClickedAt { get; private set; }
-    // public DateTime FirstClickedAt { get; private set; }
+    public int TotalClicks { get; private set; }
+    public DateTime LastClickedAt { get; private set; }
+    public DateTime FirstClickedAt { get; private set; }
 
     // // Estatísticas por período
     // public int ClicksLast24Hours { get; private set; }
@@ -26,11 +25,5 @@ public class UrlStatistics
         Id = Guid.NewGuid();
         ShortenedUrl = shortenedUrl;
         ShortenedUrlId = shortenedUrl.Id;
-
-        // TODO:
-        // TotalClicks = 0;
-        // BrowserStats = new Dictionary<string, int>();
-        // DeviceStats = new Dictionary<string, int>();
-        // CountryStats = new Dictionary<string, int>();
     }
 }
