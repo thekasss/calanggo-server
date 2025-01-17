@@ -49,7 +49,7 @@ public class Repository<TEntity>(DbContext context) : IRepository<TEntity> where
         _dbSet.Update(entity);
     }
 
-    public async Task SaveChangesAsync()
+    public async Task Commit()
     {
         await _context.SaveChangesAsync();
     }

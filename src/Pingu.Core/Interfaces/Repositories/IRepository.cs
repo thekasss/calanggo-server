@@ -1,12 +1,11 @@
 using System.Linq.Expressions;
-
 using Pingu.Core.Domain.Entities;
 
 namespace Pingu.Core.Interfaces.Repositories;
 
 public interface IRepository<TEntity> where TEntity : class, IBaseEntity
 {
-    Task SaveChangesAsync();
+    Task Commit();
     void Dispose();
     Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate);
     Task<IEnumerable<TEntity>> FindAsync(Func<TEntity, bool> predicate);
