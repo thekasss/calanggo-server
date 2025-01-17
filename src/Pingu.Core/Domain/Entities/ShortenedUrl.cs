@@ -1,8 +1,8 @@
 namespace Pingu.Core.Domain.Entities;
 
-public class ShortenedUrl
+public class ShortenedUrl: IBaseEntity
 {
-    public Guid Id { get; private set; }
+    public Guid Id { get; init; }
     public string OriginalUrl { get; private set; }
     public string ShortCode { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -10,6 +10,7 @@ public class ShortenedUrl
     public bool IsActive { get; private set; }
     public string? CreatedBy { get; private set; }
     public UrlStatistics Statistics { get; private set; }
+
     protected ShortenedUrl() { }
 
     public bool IsExpired() => ExpiresAt.HasValue && ExpiresAt.Value < DateTime.UtcNow;

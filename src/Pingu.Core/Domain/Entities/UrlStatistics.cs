@@ -1,8 +1,8 @@
 namespace Pingu.Core.Domain.Entities;
 
-public class UrlStatistics
+public class UrlStatistics : IBaseEntity
 {
-    public Guid Id { get; private set; }
+    public Guid Id { get; init; }
     public Guid ShortenedUrlId { get; private set; }
     public ShortenedUrl ShortenedUrl { get; private set; }
 
