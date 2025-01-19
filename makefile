@@ -2,7 +2,7 @@ run:
 	dotnet run --project src/Pingu.API/Pingu.API.csproj
 
 build:
-	dotnet build src/Pingu.API/Pingu.API.csproj
+	dotnet build
 
 migrations-add:
 	cd src/Pingu.API && dotnet ef migrations add AddNewMigrations --project ../Pingu.Infrastructure/Pingu.Infrastructure.csproj

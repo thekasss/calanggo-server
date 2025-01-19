@@ -8,7 +8,6 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../Pingu.Core/Pingu.Core.csproj" />
     <ProjectReference Include="../Pingu.Infrastructure/Pingu.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

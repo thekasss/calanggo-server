@@ -27,10 +27,9 @@ public static class DependencyInjection
     #region [Private Methods]
     private static IServiceCollection AddDbContextConfig(this IServiceCollection services, IConfiguration configuration)
     {
-        var a = configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<PinguDbContext>(options =>
         {
-            options.UseNpgsql(a);
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
         });
 
         return services;
