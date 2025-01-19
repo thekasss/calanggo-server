@@ -8,8 +8,8 @@ public class UrlStatistics : IBaseEntity
 
     // Estatísticas gerais
     public int TotalClicks { get; private set; }
-    public DateTime LastClickedAt { get; private set; }
-    public DateTime FirstClickedAt { get; private set; }
+    public DateTime? LastClickedAt { get; private set; }
+    public DateTime? FirstClickedAt { get; private set; }
 
     // // Estatísticas por período
     // public int ClicksLast24Hours { get; private set; }
