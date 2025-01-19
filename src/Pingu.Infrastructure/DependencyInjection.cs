@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using Pingu.Core.Domain.Entities;
-using Pingu.Core.Domain.Interfaces.Repositories;
+using Pingu.Domain.Interfaces.Repositories;
 using Pingu.Infrastructure.Data.Context;
 using Pingu.Infrastructure.Data.Repositories;
 
