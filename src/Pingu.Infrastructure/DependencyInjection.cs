@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using Pingu.Core.Domain.Entities;
-using Pingu.Core.Interfaces.Repositories;
+using Pingu.Core.Domain.Interfaces.Repositories;
 using Pingu.Infrastructure.Data.Context;
 using Pingu.Infrastructure.Data.Repositories;
 
@@ -27,9 +27,10 @@ public static class DependencyInjection
     #region [Private Methods]
     private static IServiceCollection AddDbContextConfig(this IServiceCollection services, IConfiguration configuration)
     {
+        var a = configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<PinguDbContext>(options =>
         {
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+            options.UseNpgsql(a);
         });
 
         return services;
