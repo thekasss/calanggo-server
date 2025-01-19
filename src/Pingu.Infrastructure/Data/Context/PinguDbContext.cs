@@ -9,11 +9,6 @@ public class PinguDbContext(DbContextOptions<PinguDbContext> options) : DbContex
     public DbSet<ShortenedUrl> ShortenedUrls { get; set; }
     public DbSet<UrlStatistics> UrlStatistics { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseNpgsql();
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
