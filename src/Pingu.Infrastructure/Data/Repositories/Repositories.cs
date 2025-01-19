@@ -1,13 +1,16 @@
 using System.Linq.Expressions;
+
 using Microsoft.EntityFrameworkCore;
+
 using Pingu.Core.Domain.Entities;
-using Pingu.Core.Interfaces.Repositories;
+using Pingu.Core.Domain.Interfaces.Repositories;
+using Pingu.Infrastructure.Data.Context;
 
 namespace Pingu.Infrastructure.Data.Repositories;
 
-public class Repository<TEntity>(DbContext context) : IRepository<TEntity> where TEntity : class, IBaseEntity
+public class Repository<TEntity>(PinguDbContext context) : IRepository<TEntity> where TEntity : class, IBaseEntity
 {
-    private readonly DbContext _context = context;
+    private readonly PinguDbContext _context = context;
     private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
 
     public async Task AddAsync(TEntity entity)

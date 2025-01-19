@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using Pingu.Core.Domain.Entities;
 
-namespace Pingu.Core.Interfaces.Repositories;
+namespace Pingu.Core.Domain.Interfaces.Repositories;
 
 public interface IRepository<TEntity> where TEntity : class, IBaseEntity
 {
