@@ -1,8 +1,7 @@
 using System.Linq.Expressions;
 using Pingu.Core.Domain.Entities;
 
-namespace Pingu.Core.Domain.Interfaces.Repositories;
-
+namespace Pingu.Domain.Interfaces.Repositories;
 public interface IRepository<TEntity> where TEntity : class, IBaseEntity
 {
     Task Commit();
