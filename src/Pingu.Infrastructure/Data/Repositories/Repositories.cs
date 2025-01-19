@@ -1,9 +1,8 @@
 using System.Linq.Expressions;
-
 using Microsoft.EntityFrameworkCore;
 
 using Pingu.Core.Domain.Entities;
-using Pingu.Core.Domain.Interfaces.Repositories;
+using Pingu.Domain.Interfaces.Repositories;
 using Pingu.Infrastructure.Data.Context;
 
 namespace Pingu.Infrastructure.Data.Repositories;
