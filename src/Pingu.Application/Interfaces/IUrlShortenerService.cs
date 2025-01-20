@@ -1,7 +1,7 @@
 using Pingu.Application.Common.Results;
 using Pingu.Core.Domain.Entities;
 
-namespace Pingu.Application.UrlShortenerService;
+namespace Pingu.Application.Interfaces;
 
 public interface IUrlShortenerService
 {

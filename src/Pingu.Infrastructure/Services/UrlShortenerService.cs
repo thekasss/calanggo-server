@@ -1,12 +1,12 @@
-
 using System.Security.Cryptography;
 using System.Text;
 
 using Pingu.Application.Common.Results;
+using Pingu.Application.Interfaces;
 using Pingu.Core.Domain.Entities;
 using Pingu.Domain.Interfaces.Repositories;
 
-namespace Pingu.Application.UrlShortenerService;
+namespace Pingu.Infrastructure.Services;
 
 public class UrlShortenerService(IShortenedUrlRepository shortenedUrlRepository) : IUrlShortenerService
 {
@@ -18,7 +18,7 @@ public class UrlShortenerService(IShortenedUrlRepository shortenedUrlRepository)
     {
         if (Uri.TryCreate(originalUrl, UriKind.Absolute, out _) == false)
         {
-            Result<ShortenedUrl>.Failure(new Error(400, "The provided URL is not valid."));
+            return Result<ShortenedUrl>.Failure(new Error(400, "The provided URL is not valid."));
         }
 
         var shortCode = GenerateShortCode();
