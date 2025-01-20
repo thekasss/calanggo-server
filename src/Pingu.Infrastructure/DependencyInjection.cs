@@ -42,6 +42,7 @@ public static class DependencyInjection
     private static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IUrlShortenerService, UrlShortenerService>();
+        services.AddScoped<IMemoryCacheService, MemoryCacheService>();
         return services;
     }
 
