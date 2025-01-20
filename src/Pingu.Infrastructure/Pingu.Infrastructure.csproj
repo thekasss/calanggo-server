@@ -15,6 +15,7 @@
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="../Pingu.Application/Pingu.Application.csproj" />
     <ProjectReference Include="../Pingu.Domain/Pingu.Domain.csproj" />
   </ItemGroup>
 </Project>

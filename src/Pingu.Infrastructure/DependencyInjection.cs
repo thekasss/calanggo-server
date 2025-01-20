@@ -3,10 +3,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using Pingu.Core.Domain.Entities;
+using Pingu.Application.Interfaces;
 using Pingu.Domain.Interfaces.Repositories;
 using Pingu.Infrastructure.Data.Context;
 using Pingu.Infrastructure.Data.Repositories;
+using Pingu.Infrastructure.Services;
 
 using Serilog;
 using Serilog.Events;
@@ -20,18 +21,34 @@ public static class DependencyInjection
         services.AddDbContextConfig(configuration);
         services.AddRepositories();
         services.AddSerilogLogger();
+        services.AddApplicationServices();
+        services.AddCors();
 
         return services;
     }
 
     #region [Private Methods]
+
+    private static IServiceCollection AddCors(this IServiceCollection services)
+    {
+        services.AddCors(options => options
+            .AddDefaultPolicy(builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()));
+
+        return services;
+    }
+
+    private static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    {
+        services.AddScoped<IUrlShortenerService, UrlShortenerService>();
+        return services;
+    }
+
     private static IServiceCollection AddDbContextConfig(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<PinguDbContext>(options =>
-        {
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
-        });
-
+        var conection = configuration.GetConnectionString("DefaultConnection");
+        services.AddDbContext<PinguDbContext>(options => options.UseNpgsql(conection));
         return services;
     }
 
@@ -58,10 +75,9 @@ public static class DependencyInjection
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IRepository<ShortenedUrl>, Repository<ShortenedUrl>>();
-        services.AddScoped<IRepository<UrlStatistics>, Repository<UrlStatistics>>();
-
+        services.AddScoped<IShortenedUrlRepository, ShortenedUrlRepository>();
         return services;
     }
+
     #endregion
 }

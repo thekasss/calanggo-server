@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http.Extensions;
-using Pingu.Application.UrlShortenerService;
+
+using Pingu.Application.Interfaces;
 using Pingu.Application.UseCases.ShortenUrl;
 
 namespace Pingu.API.Endpoints;

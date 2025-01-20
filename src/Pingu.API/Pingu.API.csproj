@@ -5,10 +5,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0"/>
+    <PackageReference Include="Scalar.AspNetCore" Version="2.0.1"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../Pingu.Application/Pingu.Application.csproj" />
-    <ProjectReference Include="../Pingu.Infrastructure/Pingu.Infrastructure.csproj" />
+    <ProjectReference Include="../Pingu.Application/Pingu.Application.csproj"/>
+    <ProjectReference Include="../Pingu.Infrastructure/Pingu.Infrastructure.csproj"/>
   </ItemGroup>
 </Project>
