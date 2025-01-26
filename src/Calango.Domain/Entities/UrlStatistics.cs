@@ -26,4 +26,11 @@ public class UrlStatistics : IBaseEntity
         ShortenedUrl = shortenedUrl;
         ShortenedUrlId = shortenedUrl.Id;
     }
+
+    public void AddClick()
+    {
+        TotalClicks++;
+        LastClickedAt = DateTime.UtcNow;
+        FirstClickedAt ??= LastClickedAt;
+    }
 }

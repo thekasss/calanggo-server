@@ -8,10 +8,10 @@ using Calango.Domain.Interfaces.Repositories;
 
 namespace Calango.Infrastructure.Services;
 
-public class UrlShortenerService(IShortenedUrlRepository shortenedUrlRepository, IMemoryCacheService memoryCacheService, ILogger<UrlShortenerService> logger) 
+public class UrlShortenerService(IShortenedUrlRepository shortenedUrlRepository, IMemoryCacheService memoryCacheService, ILogger<UrlShortenerService> logger)
     : IUrlShortenerService
 {
-    private const string AllowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-";
+    private const string AllowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private const int ShortCodeLength = 7;
     private readonly ILogger<UrlShortenerService> _logger = logger;
     private readonly IMemoryCacheService _memoryCacheService = memoryCacheService;
@@ -37,22 +37,41 @@ public class UrlShortenerService(IShortenedUrlRepository shortenedUrlRepository,
 
     public async Task<Result<ShortenedUrl>> GetShortenedUrl(string shortCode)
     {
-        _memoryCacheService.TryGet(shortCode, out ShortenedUrl? shortenedUrl);
-        shortenedUrl ??= await _shortenedUrlRepository.FindAsync(entity => entity.ShortCode == shortCode, true);
-        if (shortenedUrl is not null) _memoryCacheService.Set(shortCode, shortenedUrl);
+        var shortenedUrl = await GetShortenedUrlFromCacheOrDatabase(shortCode);
+        if (shortenedUrl is null)
+        {
+            return Result<ShortenedUrl>.Failure(new Error(204, "The provided short code does not exist."));
+        }
 
-        if (shortenedUrl?.IsExpired() == true)
+        if (shortenedUrl.IsExpired())
         {
             _logger.LogError("The provided short code has expired: {ShortCode}", shortCode);
             return Result<ShortenedUrl>.Failure(new Error(400, "The provided short code has expired."));
         }
-        
-        return shortenedUrl == null
-            ? Result<ShortenedUrl>.Failure(new Error(204, "The provided short code does not exist."))
-            : Result<ShortenedUrl>.Success(shortenedUrl);
+
+        await UpdateUrlStatistics(shortenedUrl);
+        return Result<ShortenedUrl>.Success(shortenedUrl);
     }
 
-    # region [Private Methods]
+    #region [Private Methods]
+
+    private async Task<ShortenedUrl?> GetShortenedUrlFromCacheOrDatabase(string shortCode)
+    {
+        if (_memoryCacheService.TryGet(shortCode, out ShortenedUrl? shortenedUrl))
+            return shortenedUrl;
+
+        shortenedUrl = await _shortenedUrlRepository.FindAsync(entity => entity.ShortCode == shortCode, true);
+        if (shortenedUrl != null) _memoryCacheService.Set(shortCode, shortenedUrl);
+
+        return shortenedUrl;
+    }
+
+    private async Task UpdateUrlStatistics(ShortenedUrl shortenedUrl)
+    {
+        shortenedUrl.Statistics.AddClick();
+        _shortenedUrlRepository.UpdateAsync(shortenedUrl);
+        await _shortenedUrlRepository.Commit();
+    }
 
     private static string GenerateShortCode()
     {
