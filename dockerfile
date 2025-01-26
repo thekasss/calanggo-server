@@ -5,7 +5,7 @@ COPY . .
 RUN dotnet restore --disable-parallel
 RUN dotnet publish -c release -o /app
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
 
 WORKDIR /app
 COPY --from=build-stage /app ./
