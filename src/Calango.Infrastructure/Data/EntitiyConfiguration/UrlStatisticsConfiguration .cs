@@ -1,0 +1,26 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Calango.Domain.Entities;
+
+namespace Calango.Infrastructure.Data.EntitiyConfiguration;
+
+public class UrlStatisticsConfiguration : IEntityTypeConfiguration<UrlStatistics>
+{
+    public void Configure(EntityTypeBuilder<UrlStatistics> builder)
+    {
+        builder.HasKey(x => x.Id);
+
+        builder.Property(x => x.TotalClicks)
+            .IsRequired()
+            .HasDefaultValue(0);
+
+        builder.Property(x => x.LastClickedAt)
+            .IsRequired(false);
+
+        builder.Property(x => x.FirstClickedAt)
+            .IsRequired(false);
+
+        builder.HasIndex(x => x.ShortenedUrlId);
+        builder.HasIndex(x => x.LastClickedAt);
+    }
+}
