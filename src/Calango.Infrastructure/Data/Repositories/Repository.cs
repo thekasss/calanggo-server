@@ -6,9 +6,9 @@ using Calango.Infrastructure.Data.Context;
 
 namespace Calango.Infrastructure.Data.Repositories;
 
-public class Repository<TEntity>(PinguDbContext context) : IRepository<TEntity> where TEntity : class, IBaseEntity
+public class Repository<TEntity>(CalangoDbContext context) : IRepository<TEntity> where TEntity : class, IBaseEntity
 {
-    private readonly PinguDbContext _context = context;
+    private readonly CalangoDbContext _context = context;
     private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
 
     public async Task AddAsync(TEntity entity)

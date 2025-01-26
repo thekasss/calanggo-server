@@ -4,4 +4,4 @@ using Calango.Infrastructure.Data.Context;
 
 namespace Calango.Infrastructure.Data.Repositories;
 
-public class ShortenedUrlRepository(PinguDbContext context) : Repository<ShortenedUrl>(context), IShortenedUrlRepository { }
+public class ShortenedUrlRepository(CalangoDbContext context) : Repository<ShortenedUrl>(context), IShortenedUrlRepository { }

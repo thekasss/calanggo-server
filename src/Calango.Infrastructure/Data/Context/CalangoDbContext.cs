@@ -4,7 +4,7 @@ using Calango.Infrastructure.Data.EntitiyConfiguration;
 
 namespace Calango.Infrastructure.Data.Context;
 
-public class PinguDbContext(DbContextOptions<PinguDbContext> options) : DbContext(options)
+public class CalangoDbContext(DbContextOptions<CalangoDbContext> options) : DbContext(options)
 {
     public DbSet<ShortenedUrl> ShortenedUrls { get; set; }
     public DbSet<UrlStatistics> UrlStatistics { get; set; }

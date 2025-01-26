@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Calango.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddNewMigrations : Migration
+    public partial class RenderMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,7 +19,6 @@ namespace Calango.Infrastructure.Migrations
                     OriginalUrl = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: false),
                     ShortCode = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     CreatedBy = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true)
                 },
