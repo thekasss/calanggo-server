@@ -21,7 +21,7 @@ public class UrlShortenerService(
     private const string AllowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-";
     private const int ShortCodeLength = 7;
 
-    public async Task<Result<ShortenedUrl>> CreateShortenedUrl(string originalUrl, string? createdBy = null, DateTime? expiresAt = null)
+    public async Task<Result<ShortenedUrl>> CreateShortenedUrl(string originalUrl, DateTime? expiresAt = null)
     {
         if (Uri.TryCreate(originalUrl, UriKind.Absolute, out _) == false)
         {
@@ -30,7 +30,7 @@ public class UrlShortenerService(
         }
 
         var shortCode = GenerateShortCode();
-        var shortenedUrl = new ShortenedUrl(originalUrl, shortCode, createdBy, expiresAt);
+        var shortenedUrl = new ShortenedUrl(originalUrl, shortCode, expiresAt: expiresAt);
 
         await _shortenedUrlRepository.AddAsync(shortenedUrl);
         await _shortenedUrlRepository.Commit();

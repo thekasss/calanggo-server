@@ -32,7 +32,7 @@ public static class UrlShortenerEndpoint
     // POST /url-shortener/shorten
     private static async Task<IResult> HandleShortenUrl(HttpContext context, IUrlShortenerService urlShortenerService, ShortenUrlRequest request)
     {
-        var result = await urlShortenerService.CreateShortenedUrl(request.OriginalUrl, request.CreatedBy, request.ExpiresAt);
+        var result = await urlShortenerService.CreateShortenedUrl(request.OriginalUrl, request.ExpiresAt);
         if (result.IsSuccess == false)
         {
             return Results.Problem(
