@@ -1,11 +1,11 @@
 run:
-	dotnet run --project src/Pingu.API/Pingu.API.csproj
+	dotnet run --project src/Calango.API/Calango.API.csproj
 
 build:
 	dotnet build
 
 migrations-add:
-	cd src/Pingu.API && dotnet ef migrations add AddNewMigrations --project ../Pingu.Infrastructure/Pingu.Infrastructure.csproj
+	cd src/Calango.API && dotnet ef migrations add AddNewMigrations --project ../Calango.Infrastructure/Calango.Infrastructure.csproj
 
 migrations-update:
-	cd src/Pingu.API && dotnet ef database update --verbose --project ../Pingu.Infrastructure/Pingu.Infrastructure.csproj
+	cd src/Calango.API && dotnet ef database update --verbose --project ../Calango.Infrastructure/Calango.Infrastructure.csproj

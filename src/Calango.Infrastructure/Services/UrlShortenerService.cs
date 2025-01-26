@@ -19,6 +19,7 @@ public class UrlShortenerService(IShortenedUrlRepository shortenedUrlRepository,
 
     public async Task<Result<ShortenedUrl>> CreateShortenedUrl(string originalUrl, DateTime? expiresAt = null)
     {
+        expiresAt ??= DateTime.UtcNow.AddDays(7);
         if (Uri.TryCreate(originalUrl, UriKind.Absolute, out _) == false)
         {
             _logger.LogError("The provided URL is not valid: {OriginalUrl}", originalUrl);
@@ -39,6 +40,12 @@ public class UrlShortenerService(IShortenedUrlRepository shortenedUrlRepository,
         _memoryCacheService.TryGet(shortCode, out ShortenedUrl? shortenedUrl);
         shortenedUrl ??= await _shortenedUrlRepository.FindAsync(entity => entity.ShortCode == shortCode, true);
         if (shortenedUrl is not null) _memoryCacheService.Set(shortCode, shortenedUrl);
+
+        if (shortenedUrl?.IsExpired() == true)
+        {
+            _logger.LogError("The provided short code has expired: {ShortCode}", shortCode);
+            return Result<ShortenedUrl>.Failure(new Error(400, "The provided short code has expired."));
+        }
         
         return shortenedUrl == null
             ? Result<ShortenedUrl>.Failure(new Error(204, "The provided short code does not exist."))

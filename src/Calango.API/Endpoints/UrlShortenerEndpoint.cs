@@ -8,9 +8,10 @@ namespace Calango.API.Endpoints;
 
 public static class UrlShortenerEndpoint
 {
+    private const string _path = "/calango/api";
     public static IEndpointRouteBuilder AddUrlShortenerEndpoint(this IEndpointRouteBuilder endpoinBuilder)
     {
-        RouteGroupBuilder urlShortenerEndpoint = endpoinBuilder.MapGroup("calango/api/");
+        RouteGroupBuilder urlShortenerEndpoint = endpoinBuilder.MapGroup(_path);
 
         // POST /url-shortener/shorten
         urlShortenerEndpoint.MapPost("/shorten", HandleShortenUrl)
@@ -38,7 +39,7 @@ public static class UrlShortenerEndpoint
                 detail: result.Error!.Message);
         }
 
-        string shortenedUrl = context.Request.GetDisplayUrl().Replace(context.Request.Path, $"/calango/api/shorten/{result.Value!.ShortCode}");
+        string shortenedUrl = context.Request.GetDisplayUrl().Replace(context.Request.Path, $"{_path}/shorten/{result.Value!.ShortCode}");
         ShortenUrlResponse response = new(result.Value.OriginalUrl, shortenedUrl, result.Value.ShortCode, result.Value.ExpiresAt);
         return Results.Created(shortenedUrl, response);
     }
