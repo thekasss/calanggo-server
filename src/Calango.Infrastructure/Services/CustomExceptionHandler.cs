@@ -15,17 +15,9 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger, IHos
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         _logger.LogError(exception, "Ocorreu um erro não tratado: {ErrorMessage}", exception.Message);
-        int statusCode = exception switch
-        {
-            UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
-            ArgumentException => StatusCodes.Status400BadRequest,
-            KeyNotFoundException => StatusCodes.Status404NotFound,
-            _ => StatusCodes.Status500InternalServerError
-        };
-
         ProblemDetails problemDetails = new()
         {
-            Status = statusCode, Detail = exception.Message, Instance = httpContext.Request.Path
+            Status = 500, Detail = exception.Message, Instance = httpContext.Request.Path
         };
 
         if (_hostEnvironment.IsDevelopment())
@@ -34,7 +26,7 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger, IHos
             problemDetails.Extensions["exceptionType"] = exception.GetType().Name;
         }
 
-        httpContext.Response.StatusCode = statusCode;
+        httpContext.Response.StatusCode = 500;
         httpContext.Response.ContentType = "application/problem+json";
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
         return true;

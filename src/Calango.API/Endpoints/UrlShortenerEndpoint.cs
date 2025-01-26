@@ -2,7 +2,6 @@ using Calango.Application.Common.Results;
 using Calango.Application.Interfaces;
 using Calango.Application.UseCases.ShortenUrl;
 using Calango.Domain.Entities;
-
 using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Calango.API.Endpoints;

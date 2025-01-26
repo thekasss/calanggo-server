@@ -38,11 +38,8 @@ public class UrlShortenerService(IShortenedUrlRepository shortenedUrlRepository,
     {
         _memoryCacheService.TryGet(shortCode, out ShortenedUrl? shortenedUrl);
         shortenedUrl ??= await _shortenedUrlRepository.FindAsync(entity => entity.ShortCode == shortCode, true);
-        if (shortenedUrl is not null)
-        {
-            _memoryCacheService.Set(shortCode, shortenedUrl);
-        }
-
+        if (shortenedUrl is not null) _memoryCacheService.Set(shortCode, shortenedUrl);
+        
         return shortenedUrl == null
             ? Result<ShortenedUrl>.Failure(new Error(204, "The provided short code does not exist."))
             : Result<ShortenedUrl>.Success(shortenedUrl);
