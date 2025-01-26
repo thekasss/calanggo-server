@@ -42,14 +42,18 @@ public static class DependencyInjection
     private static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IUrlShortenerService, UrlShortenerService>();
-        services.AddScoped<IMemoryCacheService, MemoryCacheService>();
+        services.AddSingleton<IMemoryCacheService, MemoryCacheService>();
         return services;
     }
 
     private static IServiceCollection AddDbContextConfig(this IServiceCollection services, IConfiguration configuration)
     {
-        var conection = configuration.GetConnectionString("DefaultConnection");
-        services.AddDbContext<PinguDbContext>(options => options.UseNpgsql(conection));
+#if DEBUG
+        services.AddDbContext<PinguDbContext>(options => options.UseInMemoryDatabase("PinguInMemoryDb"));
+#else
+        var connection = configuration.GetConnectionString("DefaultConnection");
+        services.AddDbContext<PinguDbContext>(options => options.UseNpgsql(connection));
+#endif
         return services;
     }
 

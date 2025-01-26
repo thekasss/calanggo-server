@@ -7,10 +7,10 @@ public class MemoryCacheService(IMemoryCache memoryCache) : IMemoryCacheService
 {
     private readonly IMemoryCache _memoryCache = memoryCache;
     private readonly MemoryCacheEntryOptions _defaultCacheOptions = new MemoryCacheEntryOptions()
-            .SetSlidingExpiration(TimeSpan.FromMinutes(10))
-            .SetAbsoluteExpiration(TimeSpan.FromHours(1))
-            .SetPriority(CacheItemPriority.Normal)
-            .SetSize(256);
+        .SetSlidingExpiration(TimeSpan.FromMinutes(10))
+        .SetAbsoluteExpiration(TimeSpan.FromHours(1))
+        .SetPriority(CacheItemPriority.Normal)
+        .SetSize(256);
 
     public T? Get<T>(string key)
     {
