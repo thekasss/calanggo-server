@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Mvc;
-
 using Pingu.Application.Interfaces;
 using Pingu.Application.UseCases.ShortenUrl;
 
@@ -15,15 +13,11 @@ public static class UrlShortenerEndpoint
         // POST /url-shortener/shorten
         urlShortenerEndpoint.MapPost("/shorten", HandleShortenUrl)
             .WithDescription("The endpoint to shorten a URL")
-            .ProducesProblem(400)
-            .Produces<ShortenUrlResponse>(201);
+            .Produces(StatusCodes.Status201Created);
 
         // GET /url-shortener/{shortCode}
         urlShortenerEndpoint.MapGet("/{shortCode}", HandleGetShortenedUrl)
-            .WithDescription("The endpoint to get the original URL from a shortened URL")
-            .ProducesProblem(400)
-            .Produces(301);
-
+            .WithDescription("The endpoint to get the original URL from a shortened URL");
 
         return urlShortenerEndpoint;
     }

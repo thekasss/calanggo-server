@@ -14,7 +14,7 @@ var app = builder.Build();
 app.MapOpenApi();
 app.AddUrlShortenerEndpoint();
 app.UseHttpsRedirection();
-app.UseExceptionHandler(new ExceptionHandlerOptions { ExceptionHandlingPath = "/error", AllowStatusCode404Response = true, });
+app.UseExceptionHandler("/pingu/api/errors");
 app.MapGet("/", () => Results.Redirect("/scalar")).ExcludeFromDescription();
 app.MapScalarApiReference();
 app.UseCors();

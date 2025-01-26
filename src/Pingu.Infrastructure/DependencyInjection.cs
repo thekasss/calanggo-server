@@ -22,6 +22,7 @@ public static class DependencyInjection
         services.AddRepositories();
         services.AddSerilogLogger();
         services.AddApplicationServices();
+        services.AddExceptionHandler<CustomExceptionHandler>();
         services.AddCors();
 
         return services;
