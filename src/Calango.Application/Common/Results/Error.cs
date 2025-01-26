@@ -1,3 +1,3 @@
 namespace Calango.Application.Common.Results;
 
-public record Error(int Code, string Message);
+public record Error(int Code, string Message = "");

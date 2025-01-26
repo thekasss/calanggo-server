@@ -38,15 +38,10 @@ public class UrlShortenerService(IShortenedUrlRepository shortenedUrlRepository,
     public async Task<Result<ShortenedUrl>> GetShortenedUrl(string shortCode)
     {
         var shortenedUrl = await GetShortenedUrlFromCacheOrDatabase(shortCode);
-        if (shortenedUrl is null)
+        if (shortenedUrl is null || shortenedUrl.IsExpired())
         {
-            return Result<ShortenedUrl>.Failure(new Error(204, "The provided short code does not exist."));
-        }
-
-        if (shortenedUrl.IsExpired())
-        {
-            _logger.LogError("The provided short code has expired: {ShortCode}", shortCode);
-            return Result<ShortenedUrl>.Failure(new Error(400, "The provided short code has expired."));
+            _logger.LogError("The short code provided does not exist or has expired: {ShortCode}", shortCode);
+            return Result<ShortenedUrl>.Failure(new Error(204));
         }
 
         await UpdateUrlStatistics(shortenedUrl);
