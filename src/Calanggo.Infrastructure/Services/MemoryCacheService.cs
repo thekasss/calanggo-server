@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Caching.Memory;
-using Calango.Application.Interfaces;
+using Calanggo.Application.Interfaces;
 
 namespace Calango.Infrastructure.Services;
 

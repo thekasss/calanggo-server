@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Calango.Domain.Entities;
+using Calanggo.Domain.Entities;
 
-namespace Calango.Infrastructure.Data.EntitiyConfiguration;
+namespace Calanggo.Infrastructure.Data.EntitiyConfiguration;
 
 public class ShortenedUrlConfiguration : IEntityTypeConfiguration<ShortenedUrl>
 {

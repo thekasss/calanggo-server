@@ -1,10 +1,10 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using Calango.Domain.Entities;
-using Calango.Domain.Interfaces.Repositories;
-using Calango.Infrastructure.Data.Context;
+using Calanggo.Domain.Entities;
+using Calanggo.Domain.Interfaces.Repositories;
+using Calanggo.Infrastructure.Data.Context;
 
-namespace Calango.Infrastructure.Data.Repositories;
+namespace Calanggo.Infrastructure.Data.Repositories;
 
 public class Repository<TEntity>(CalangoDbContext context) : IRepository<TEntity> where TEntity : class, IBaseEntity
 {

@@ -1,10 +1,10 @@
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Logging;
-using Calango.Application.Common.Results;
-using Calango.Application.Interfaces;
-using Calango.Domain.Entities;
-using Calango.Domain.Interfaces.Repositories;
+using Calanggo.Application.Common.Results;
+using Calanggo.Application.Interfaces;
+using Calanggo.Domain.Entities;
+using Calanggo.Domain.Interfaces.Repositories;
 
 namespace Calango.Infrastructure.Services;
 

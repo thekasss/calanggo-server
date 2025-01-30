@@ -3,8 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using Calango.Application.Interfaces;
-using Calango.Domain.Interfaces.Repositories;
+using Calanggo.Application.Interfaces;
+using Calanggo.Domain.Interfaces.Repositories;
 using Calango.Infrastructure.Data.Context;
 using Calango.Infrastructure.Data.Repositories;
 using Calango.Infrastructure.Services;

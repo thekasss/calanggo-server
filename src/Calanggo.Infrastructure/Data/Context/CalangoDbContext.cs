@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Calango.Domain.Entities;
-using Calango.Infrastructure.Data.EntitiyConfiguration;
+using Calanggo.Domain.Entities;
+using Calanggo.Infrastructure.Data.EntitiyConfiguration;
 
-namespace Calango.Infrastructure.Data.Context;
+namespace Calanggo.Infrastructure.Data.Context;
 
 public class CalangoDbContext(DbContextOptions<CalangoDbContext> options) : DbContext(options)
 {
