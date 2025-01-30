@@ -1,4 +1,4 @@
-namespace Calango.Domain.Entities;
+namespace Calanggo.Domain.Entities;
 
 public interface IBaseEntity
 {

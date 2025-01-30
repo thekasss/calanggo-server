@@ -1,12 +1,14 @@
 using System.Security.Cryptography;
 using System.Text;
-using Microsoft.Extensions.Logging;
+
 using Calanggo.Application.Common.Results;
 using Calanggo.Application.Interfaces;
 using Calanggo.Domain.Entities;
 using Calanggo.Domain.Interfaces.Repositories;
 
-namespace Calango.Infrastructure.Services;
+using Microsoft.Extensions.Logging;
+
+namespace Calanggo.Infrastructure.Services;
 
 public class UrlShortenerService(IShortenedUrlRepository shortenedUrlRepository, IMemoryCacheService memoryCacheService, ILogger<UrlShortenerService> logger)
     : IUrlShortenerService

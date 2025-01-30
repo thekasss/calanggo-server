@@ -1,4 +1,4 @@
-namespace Calango.Application.Common.Results;
+namespace Calanggo.Application.Common.Results;
 
 public static class ResultExtensions
 {

@@ -5,14 +5,14 @@ using Microsoft.Extensions.Logging;
 
 using Calanggo.Application.Interfaces;
 using Calanggo.Domain.Interfaces.Repositories;
-using Calango.Infrastructure.Data.Context;
-using Calango.Infrastructure.Data.Repositories;
-using Calango.Infrastructure.Services;
+using Calanggo.Infrastructure.Data.Context;
+using Calanggo.Infrastructure.Data.Repositories;
+using Calanggo.Infrastructure.Services;
 
 using Serilog;
 using Serilog.Events;
 
-namespace Calango.Infrastructure;
+namespace Calanggo.Infrastructure;
 
 public static class DependencyInjection
 {
@@ -45,7 +45,7 @@ public static class DependencyInjection
     private static void AddDbContextConfig(this IServiceCollection services, IConfiguration configuration)
     {
 #if DEBUG
-        services.AddDbContext<CalangoDbContext>(options => options.UseInMemoryDatabase("CalangoInMemoryDb"));
+        services.AddDbContext<CalangoDbContext>(options => options.UseInMemoryDatabase("CalanggoInMemoryDb"));
 #else
         var connection = configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<CalangoDbContext>(options => options.UseNpgsql(connection));

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Calango.Infrastructure.Services;
+namespace Calanggo.Infrastructure.Services;
 
 public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger, IHostEnvironment hostEnvironment)
     : IExceptionHandler

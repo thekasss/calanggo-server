@@ -1,7 +1,8 @@
 using System.Linq.Expressions;
-using Calango.Domain.Entities;
 
-namespace Calango.Domain.Interfaces.Repositories;
+using Calanggo.Domain.Entities;
+
+namespace Calanggo.Domain.Interfaces.Repositories;
 
 public interface IRepository<TEntity> where TEntity : class, IBaseEntity
 {

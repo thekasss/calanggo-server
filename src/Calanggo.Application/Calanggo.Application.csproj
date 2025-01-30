@@ -5,6 +5,6 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Calango.Domain\Calango.Domain.csproj"/>
+        <ProjectReference Include="..\Calanggo.Domain\Calanggo.Domain.csproj" />
     </ItemGroup>
 </Project>

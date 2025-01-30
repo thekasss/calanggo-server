@@ -1,5 +1,5 @@
-using Calango.API.Endpoints;
-using Calango.Infrastructure;
+using Calanggo.API.Endpoints;
+using Calanggo.Infrastructure;
 using Scalar.AspNetCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);

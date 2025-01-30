@@ -1,10 +1,10 @@
-using Calango.Application.Common.Results;
-using Calango.Application.Interfaces;
-using Calango.Application.UseCases.ShortenUrl;
-using Calango.Domain.Entities;
+using Calanggo.Application.Common.Results;
+using Calanggo.Application.Interfaces;
+using Calanggo.Application.UseCases.ShortenUrl;
+using Calanggo.Domain.Entities;
 using Microsoft.AspNetCore.Http.Extensions;
 
-namespace Calango.API.Endpoints;
+namespace Calanggo.API.Endpoints;
 
 public static class UrlShortenerEndpoint
 {

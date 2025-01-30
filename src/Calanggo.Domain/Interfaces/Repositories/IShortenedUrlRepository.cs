@@ -1,5 +1,5 @@
-using Calango.Domain.Entities;
+using Calanggo.Domain.Entities;
 
-namespace Calango.Domain.Interfaces.Repositories;
+namespace Calanggo.Domain.Interfaces.Repositories;
 
 public interface IShortenedUrlRepository : IRepository<ShortenedUrl> { }

@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using Calanggo.Application.Interfaces;
 
-namespace Calango.Infrastructure.Services;
+namespace Calanggo.Infrastructure.Services;
 
 public class MemoryCacheService(IMemoryCache memoryCache) : IMemoryCacheService
 {

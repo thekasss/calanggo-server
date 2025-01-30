@@ -1,7 +1,8 @@
-using Calango.Application.Common.Results;
-using Calango.Domain.Entities;
+using Calanggo.Application.Common.Results;
 
-namespace Calango.Application.Interfaces;
+using Calanggo.Domain.Entities;
+
+namespace Calanggo.Application.Interfaces;
 
 public interface IUrlShortenerService
 {
