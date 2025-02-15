@@ -3,7 +3,7 @@ namespace Calanggo.Domain.Entities;
 public class UrlStatistics : IBaseEntity
 {
     public Guid ShortenedUrlId { get; private set; }
-    public ShortenedUrl ShortenedUrl { get; private set; }
+    public virtual ShortenedUrl ShortenedUrl { get; private set; }
     
     // Estatísticas gerais
     public int TotalClicks { get; private set; }

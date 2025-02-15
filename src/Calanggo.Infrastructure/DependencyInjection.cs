@@ -45,10 +45,10 @@ public static class DependencyInjection
     private static void AddDbContextConfig(this IServiceCollection services, IConfiguration configuration)
     {
 #if DEBUG
-        services.AddDbContext<CalangoDbContext>(options => options.UseInMemoryDatabase("CalanggoInMemoryDb"));
+        services.AddDbContext<CalanggoDbContext>(options => options.UseLazyLoadingProxies().UseInMemoryDatabase("CalanggoInMemoryDb"));
 #else
         var connection = configuration.GetConnectionString("DefaultConnection");
-        services.AddDbContext<CalangoDbContext>(options => options.UseNpgsql(connection));
+        services.AddDbContext<CalanggoDbContext>(options => options.UseLazyLoadingProxies().UseNpgsql(connection));
 #endif
     }
 

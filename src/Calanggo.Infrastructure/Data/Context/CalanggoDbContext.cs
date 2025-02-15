@@ -4,7 +4,7 @@ using Calanggo.Infrastructure.Data.EntitiyConfiguration;
 
 namespace Calanggo.Infrastructure.Data.Context;
 
-public class CalangoDbContext(DbContextOptions<CalangoDbContext> options) : DbContext(options)
+public class CalanggoDbContext(DbContextOptions<CalanggoDbContext> options) : DbContext(options)
 {
     public DbSet<ShortenedUrl> ShortenedUrls { get; set; }
     public DbSet<UrlStatistics> UrlStatistics { get; set; }

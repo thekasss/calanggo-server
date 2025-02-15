@@ -8,7 +8,7 @@ public class ShortenedUrl : IBaseEntity
     public DateTime? ExpiresAt { get; }
     public bool IsActive { get; private set; }
     public string? CreatedBy { get; private set; }
-    public UrlStatistics Statistics { get; private set; }
+    public virtual UrlStatistics Statistics { get; private set; }
     public Guid Id { get; init; }
 
     protected ShortenedUrl() { }
