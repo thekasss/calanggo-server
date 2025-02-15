@@ -2,6 +2,7 @@ using Calanggo.Application.Common.Results;
 using Calanggo.Application.Interfaces;
 using Calanggo.Application.UseCases.ShortenUrl;
 using Calanggo.Domain.Entities;
+
 using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Calanggo.API.Endpoints;
@@ -21,6 +22,9 @@ public static class UrlShortenerEndpoint
         // GET /url-shortener/{shortCode}
         urlShortenerEndpoint.MapGet("/shorten/{shortCode}", HandleGetShortenedUrl)
             .WithDescription("The endpoint to get the original URL from a shortened URL");
+
+        urlShortenerEndpoint.MapGet("/shorten/{shortCode}/statistics", HandleGetUrlStatistics)
+           .WithDescription("The endpoint to get statistics for a shortened URL");
 
         return urlShortenerEndpoint;
     }
@@ -47,13 +51,31 @@ public static class UrlShortenerEndpoint
     // GET /url-shortener/{shortCode}
     private static async Task<IResult> HandleGetShortenedUrl(HttpContext context, IUrlShortenerService urlShortenerService, string shortCode)
     {
-        Result<ShortenedUrl> result = await urlShortenerService.GetShortenedUrl(shortCode);
+        var clientIp = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        var userAgent = context.Request.Headers.UserAgent.ToString();
+        var referer = context.Request.Headers.Referer.ToString();
+
+        Result<ShortenedUrl> result = await urlShortenerService.GetShortenedUrl(shortCode, clientIp, userAgent, referer);
+
+        // Result<ShortenedUrl> result = await urlShortenerService.GetShortenedUrl(shortCode);
         return result.IsSuccess == false
             ? Results.Problem(
                 title: "An error occurred while getting the original URL",
                 statusCode: result.Error!.Code,
                 detail: result.Error!.Message)
             : Results.Redirect(result.Value!.OriginalUrl, true);
+    }
+
+    // GET /url-shortener/{shortCode}/statistics
+    private static async Task<IResult> HandleGetUrlStatistics(IUrlShortenerService urlShortenerService, string shortCode)
+    {
+        var result = await urlShortenerService.GetUrlStatistics(shortCode);
+        return !result.IsSuccess
+            ? Results.Problem(
+                title: "An error occurred while getting URL statistics",
+                statusCode: result.Error!.Code,
+                detail: result.Error!.Message)
+            : Results.Ok(result.Value);
     }
 
     #endregion
