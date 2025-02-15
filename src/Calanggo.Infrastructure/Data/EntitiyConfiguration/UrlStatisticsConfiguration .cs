@@ -17,9 +17,6 @@ public class UrlStatisticsConfiguration : IEntityTypeConfiguration<UrlStatistics
         builder.Property(x => x.LastClickedAt)
             .IsRequired(false);
 
-        builder.Property(x => x.FirstClickedAt)
-            .IsRequired(false);
-
         builder.HasIndex(x => x.ShortenedUrlId);
         builder.HasIndex(x => x.LastClickedAt);
     }

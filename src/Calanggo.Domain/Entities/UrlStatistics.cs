@@ -4,11 +4,10 @@ public class UrlStatistics : IBaseEntity
 {
     public Guid ShortenedUrlId { get; private set; }
     public virtual ShortenedUrl ShortenedUrl { get; private set; }
-    
+
     // Estatísticas gerais
     public int TotalClicks { get; private set; }
     public DateTime? LastClickedAt { get; private set; }
-    public DateTime? FirstClickedAt { get; private set; }
     public Guid Id { get; init; }
 
     // // Estatísticas por período
@@ -31,6 +30,5 @@ public class UrlStatistics : IBaseEntity
     {
         TotalClicks++;
         LastClickedAt = DateTime.UtcNow;
-        FirstClickedAt ??= LastClickedAt;
     }
 }
