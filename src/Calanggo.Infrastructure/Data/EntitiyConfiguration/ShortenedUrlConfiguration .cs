@@ -22,17 +22,18 @@ public class ShortenedUrlConfiguration : IEntityTypeConfiguration<ShortenedUrl>
             .IsRequired();
 
         builder.Property(x => x.IsActive)
-            .IsRequired()
-            .HasDefaultValue(true);
+            .IsRequired();
 
         builder.Property(x => x.CreatedBy)
             .HasMaxLength(256);
 
-        builder.HasIndex(x => x.ShortCode)
-            .IsUnique();
-
+        // indices
         builder.HasIndex(x => x.CreatedAt);
 
+        builder.HasIndex(x => x.ShortCode)
+            .IsUnique();
+                
+        // relacionamentos
         builder.HasOne(x => x.Statistics)
             .WithOne(x => x.ShortenedUrl)
             .HasForeignKey<UrlStatistics>(x => x.ShortenedUrlId)
