@@ -2,6 +2,7 @@ namespace Calanggo.Domain.Entities;
 
 public class ShortenedUrl : IBaseEntity
 {
+    public Guid Id { get; init; }
     public string OriginalUrl { get; private set; }
     public string ShortCode { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -9,7 +10,6 @@ public class ShortenedUrl : IBaseEntity
     public bool IsActive { get; private set; }
     public string? CreatedBy { get; private set; }
     public virtual UrlStatistics Statistics { get; private set; }
-    public Guid Id { get; init; }
 
     protected ShortenedUrl() { }
 
