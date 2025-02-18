@@ -1,6 +1,6 @@
 namespace Calanggo.Application.UseCases.GetUrlStatistics;
 
-public class DeviceMetricResponse
+public record DeviceMetricResponse
 {
     public string DeviceType { get; set; } = string.Empty;
     public string Browser { get; set; } = string.Empty;

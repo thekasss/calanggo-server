@@ -50,6 +50,8 @@ public class UrlShortenerService(IShortenedUrlRepository shortenedUrlRepository,
         }
 
         await UpdateUrlStatistics(shortenedUrl, ipAddress, userAgent, referer);
+        _memoryCacheService.Set(shortCode, shortenedUrl);
+
         return Result<ShortenedUrl>.Success(shortenedUrl);
     }
 
@@ -96,9 +98,7 @@ public class UrlShortenerService(IShortenedUrlRepository shortenedUrlRepository,
         if (_memoryCacheService.TryGet(shortCode, out ShortenedUrl? shortenedUrl))
             return shortenedUrl;
 
-        shortenedUrl = await _shortenedUrlRepository.FindAsync(entity => entity.ShortCode == shortCode, true);
-        if (shortenedUrl != null) _memoryCacheService.Set(shortCode, shortenedUrl);
-
+        shortenedUrl ??= await _shortenedUrlRepository.FindAsync(entity => entity.ShortCode == shortCode, includeStatistics: true);
         return shortenedUrl;
     }
 
@@ -120,7 +120,7 @@ public class UrlShortenerService(IShortenedUrlRepository shortenedUrlRepository,
     private async Task UpdateUrlStatistics(ShortenedUrl shortenedUrl, string ipAddress, string userAgent, string referer)
     {
         shortenedUrl.Statistics.AddClick(ipAddress, userAgent, referer);
-        _shortenedUrlRepository.UpdateAsync(shortenedUrl);
+        _shortenedUrlRepository.Update(shortenedUrl);
         await _shortenedUrlRepository.Commit();
     }
 

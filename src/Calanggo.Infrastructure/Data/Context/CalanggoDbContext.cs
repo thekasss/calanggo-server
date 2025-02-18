@@ -10,7 +10,7 @@ public class CalanggoDbContext(DbContextOptions<CalanggoDbContext> options) : Db
     public DbSet<UrlStatistics> UrlStatistics { get; set; }
     public DbSet<DeviceMetric> DeviceMetrics { get; set; }
     public DbSet<LocationMetric> LocationMetrics { get; set; }
-
+        
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);

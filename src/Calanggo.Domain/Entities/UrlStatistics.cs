@@ -22,9 +22,10 @@ public class UrlStatistics : IBaseEntity
 
     protected UrlStatistics() { }
 
-    public UrlStatistics(ShortenedUrl shortenedUrl) : this()
+    public UrlStatistics(ShortenedUrl shortenedUrl)
     {
         ArgumentNullException.ThrowIfNull(shortenedUrl);
+
         Id = Guid.NewGuid();
         ShortenedUrl = shortenedUrl;
         ShortenedUrlId = shortenedUrl.Id;

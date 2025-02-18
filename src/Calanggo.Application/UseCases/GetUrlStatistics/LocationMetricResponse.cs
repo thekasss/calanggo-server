@@ -1,6 +1,6 @@
 namespace Calanggo.Application.UseCases.GetUrlStatistics;
 
-public class LocationMetricResponse
+public record LocationMetricResponse
 {
     public string Country { get; set; } = string.Empty;
     public string Region { get; set; } = string.Empty;

@@ -43,7 +43,7 @@ public class ClickEvent : IBaseEntity
 
     private void ParseUserAgent(string userAgent)
     {
-
+        // parser
     }
 
     private void ParseLocation(string ipAddress)

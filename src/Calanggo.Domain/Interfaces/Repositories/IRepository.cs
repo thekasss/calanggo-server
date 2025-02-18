@@ -14,5 +14,5 @@ public interface IRepository<TEntity> where TEntity : class, IBaseEntity
     Task<IEnumerable<TEntity>> GetAllAsync(bool asNoTracking = false);
     Task<TEntity?> GetByIdAsync(Guid id, bool asNoTracking = false);
     Task DeleteAsync(Guid id);
-    void UpdateAsync(TEntity entity);
+    void Update(TEntity entity);
 }

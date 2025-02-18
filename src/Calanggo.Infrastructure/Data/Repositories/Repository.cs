@@ -8,8 +8,8 @@ namespace Calanggo.Infrastructure.Data.Repositories;
 
 public class Repository<TEntity>(CalanggoDbContext context) : IRepository<TEntity> where TEntity : class, IBaseEntity
 {
-    private readonly CalanggoDbContext _context = context;
-    private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
+    protected readonly CalanggoDbContext _context = context;
+    protected readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
 
     public async Task AddAsync(TEntity entity)
     {
@@ -53,7 +53,7 @@ public class Repository<TEntity>(CalanggoDbContext context) : IRepository<TEntit
             : await _dbSet.FirstOrDefaultAsync(entity => entity.Id == id);
     }
 
-    public void UpdateAsync(TEntity entity)
+    public void Update(TEntity entity)
     {
         _dbSet.Update(entity);
     }

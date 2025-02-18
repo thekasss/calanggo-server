@@ -44,12 +44,18 @@ public static class DependencyInjection
 
     private static void AddDbContextConfig(this IServiceCollection services, IConfiguration configuration)
     {
-#if DEBUG
-        services.AddDbContext<CalanggoDbContext>(options => options.UseLazyLoadingProxies().UseInMemoryDatabase("CalanggoInMemoryDb"));
-#else
+        // #if DEBUG
+        //         services.AddDbContext<CalanggoDbContext>(options
+        //             => options.EnableSensitiveDataLogging()
+        //                 .UseLazyLoadingProxies()
+        //                 .UseInMemoryDatabase("CalanggoInMemoryDb"));
+        // #else
         var connection = configuration.GetConnectionString("DefaultConnection");
-        services.AddDbContext<CalanggoDbContext>(options => options.UseLazyLoadingProxies().UseNpgsql(connection));
-#endif
+        services.AddDbContext<CalanggoDbContext>(options
+            => options.EnableSensitiveDataLogging()
+            .UseLazyLoadingProxies(false)
+            .UseNpgsql(connection));
+        // #endif
     }
 
     private static void AddSerilogLogger(this IServiceCollection services)
