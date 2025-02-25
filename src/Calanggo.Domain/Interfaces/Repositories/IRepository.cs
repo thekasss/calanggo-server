@@ -6,8 +6,6 @@ namespace Calanggo.Domain.Interfaces.Repositories;
 
 public interface IRepository<TEntity> where TEntity : class, IBaseEntity
 {
-    Task Commit();
-    void Dispose();
     Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate, bool asNoTracking = false);
     Task<IEnumerable<TEntity>> FindListAsync(Func<TEntity, bool> predicate, bool asNoTracking = false);
     Task AddAsync(TEntity entity);

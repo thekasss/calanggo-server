@@ -18,20 +18,14 @@ public class UrlShortenerService : IUrlShortenerService
     private const string AllowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private const int ShortCodeLength = 7;
     private readonly ILogger<UrlShortenerService> _logger;
-    private readonly IUrlStatisticsRepository _urlStatisticsRepository;
+    private readonly UnitOfWork _unitOfWork;
     private readonly IMemoryCacheService _memoryCacheService;
-    private readonly IShortenedUrlRepository _shortenedUrlRepository;
-    private readonly CalanggoDbContext _context;
 
-    public UrlShortenerService(IShortenedUrlRepository shortenedUrlRepository, IMemoryCacheService memoryCacheService,
-        ILogger<UrlShortenerService> logger, IUrlStatisticsRepository urlStatisticsRepository, CalanggoDbContext context)
+    public UrlShortenerService(UnitOfWork unitOfWork, IMemoryCacheService memoryCacheService, ILogger<UrlShortenerService> logger)
     {
+        _unitOfWork = unitOfWork;
         _logger = logger;
-        _urlStatisticsRepository = urlStatisticsRepository;
         _memoryCacheService = memoryCacheService;
-        _shortenedUrlRepository = shortenedUrlRepository;
-
-        _context = context;
     }
 
     public async Task<Result<ShortenedUrl>> CreateShortenedUrl(string originalUrl, DateTime? expiresAt = null)
@@ -47,8 +41,8 @@ public class UrlShortenerService : IUrlShortenerService
         string shortCode = GenerateShortCode();
         ShortenedUrl shortenedUrl = new(originalUrl, shortCode, expiresAt: expiresAt);
 
-        await _shortenedUrlRepository.AddAsync(shortenedUrl);
-        await _shortenedUrlRepository.Commit();
+        await _unitOfWork.ShortenedUrlRepository.AddAsync(shortenedUrl);
+        await _unitOfWork.Commit();
 
         return Result<ShortenedUrl>.Success(shortenedUrl);
     }
@@ -112,7 +106,7 @@ public class UrlShortenerService : IUrlShortenerService
         if (_memoryCacheService.TryGet(shortCode, out ShortenedUrl? shortenedUrl))
             return shortenedUrl;
 
-        shortenedUrl ??= await _shortenedUrlRepository.FindAsync(entity => entity.ShortCode == shortCode);
+        shortenedUrl ??= await _unitOfWork.ShortenedUrlRepository.FindAsync(entity => entity.ShortCode == shortCode);
         return shortenedUrl;
     }
 
@@ -134,8 +128,8 @@ public class UrlShortenerService : IUrlShortenerService
     private async Task UpdateUrlStatistics(ShortenedUrl shortenedUrl, string ipAddress, string userAgent, string referer)
     {
         shortenedUrl.Statistics.AddClick(ipAddress, userAgent, referer);
-        _urlStatisticsRepository.Update(shortenedUrl.Statistics);
-        await _shortenedUrlRepository.Commit();
+        _unitOfWork.UrlStatisticsRepository.Update(shortenedUrl.Statistics);
+        await _unitOfWork.Commit();
     }
 
     #endregion
