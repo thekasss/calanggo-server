@@ -20,6 +20,7 @@ public static class DependencyInjection
     {
         services.AddDbContextConfig(configuration);
         services.AddRepositories();
+        services.AddScoped<UnitOfWork>();
         services.AddSerilogLogger();
         services.AddApplicationServices();
         services.AddExceptionHandler<CustomExceptionHandler>();

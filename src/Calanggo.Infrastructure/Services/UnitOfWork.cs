@@ -12,7 +12,7 @@ public class UnitOfWork : IDisposable
     public IShortenedUrlRepository ShortenedUrlRepository { get; init; }
     private bool _disposed;
 
-    public UnitOfWork(UrlStatisticsRepository urlStatisticsRepository, ShortenedUrlRepository shortenedUrlRepository,
+    public UnitOfWork(IUrlStatisticsRepository urlStatisticsRepository, IShortenedUrlRepository shortenedUrlRepository,
         CalanggoDbContext dbContext)
     {
         DbContext = dbContext;
