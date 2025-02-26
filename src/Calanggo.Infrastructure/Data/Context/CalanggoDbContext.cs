@@ -14,14 +14,14 @@ public class CalanggoDbContext(DbContextOptions<CalanggoDbContext> options) : Db
         
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
         // OR:
 
-        modelBuilder.ApplyConfiguration(new ShortenedUrlConfiguration());
-        modelBuilder.ApplyConfiguration(new UrlStatisticsConfiguration());
-        modelBuilder.ApplyConfiguration(new DeviceMetricConfiguration());
-        modelBuilder.ApplyConfiguration(new LocationMetricConfiguration());
-        modelBuilder.ApplyConfiguration(new ClickEventConfiguration());
+        // modelBuilder.ApplyConfiguration(new ShortenedUrlConfiguration());
+        // modelBuilder.ApplyConfiguration(new UrlStatisticsConfiguration());
+        // modelBuilder.ApplyConfiguration(new DeviceMetricConfiguration());
+        // modelBuilder.ApplyConfiguration(new LocationMetricConfiguration());
+        // modelBuilder.ApplyConfiguration(new ClickEventConfiguration());
         base.OnModelCreating(modelBuilder);
     }
 }
