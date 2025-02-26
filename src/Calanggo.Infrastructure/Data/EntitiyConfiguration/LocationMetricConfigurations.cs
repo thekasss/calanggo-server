@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Calanggo.Infrastructure.Data.EntitiyConfiguration;
 
-public class LocationMetricMap : IEntityTypeConfiguration<LocationMetric>
+public class LocationMetricConfiguration : IEntityTypeConfiguration<LocationMetric>
 {
     public void Configure(EntityTypeBuilder<LocationMetric> builder)
     {
@@ -28,14 +28,14 @@ public class LocationMetricMap : IEntityTypeConfiguration<LocationMetric>
             .IsRequired()
             .HasDefaultValue(0);
 
-        // indices
-        builder.HasIndex(x => x.UrlStatisticsId);
+        // // indices
+        // builder.HasIndex(x => x.UrlStatisticsId);
 
-        // indice composto
-        builder.HasIndex(x => new { x.Country, x.Region, x.City });
+        // // indice composto
+        // builder.HasIndex(x => new { x.Country, x.Region, x.City });
         
-        // indice unico para evitar duplicatas
-        builder.HasIndex(x => new { x.UrlStatisticsId, x.Country, x.Region, x.City })
-            .IsUnique();
+        // // indice unico para evitar duplicatas
+        // builder.HasIndex(x => new { x.UrlStatisticsId, x.Country, x.Region, x.City })
+        //     .IsUnique();
     }
 }

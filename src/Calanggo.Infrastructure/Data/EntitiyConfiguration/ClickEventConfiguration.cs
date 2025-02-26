@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Calanggo.Infrastructure.Data.EntitiyConfiguration;
 
-public class ClickEventMap : IEntityTypeConfiguration<ClickEvent>
+public class ClickEventConfiguration : IEntityTypeConfiguration<ClickEvent>
 {
     public void Configure(EntityTypeBuilder<ClickEvent> builder)
     {
@@ -46,10 +46,10 @@ public class ClickEventMap : IEntityTypeConfiguration<ClickEvent>
         builder.Property(x => x.OperatingSystem)
             .HasMaxLength(50);
 
-        // indices
-        builder.HasIndex(x => x.UrlStatisticsId);
-        builder.HasIndex(x => x.ClickedAt);
-        builder.HasIndex(x => x.Country);
-        builder.HasIndex(x => x.DeviceType);
+        // // indices
+        // builder.HasIndex(x => x.UrlStatisticsId);
+        // builder.HasIndex(x => x.ClickedAt);
+        // builder.HasIndex(x => x.Country);
+        // builder.HasIndex(x => x.DeviceType);
     }
 }
