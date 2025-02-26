@@ -8,6 +8,7 @@ public class UrlStatisticsConfiguration : IEntityTypeConfiguration<UrlStatistics
 {
     public void Configure(EntityTypeBuilder<UrlStatistics> builder)
     {
+        builder.ToTable("UrlStatistics");
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.TotalClicks)

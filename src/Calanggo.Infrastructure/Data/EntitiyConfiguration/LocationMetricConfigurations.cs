@@ -9,6 +9,7 @@ public class LocationMetricConfiguration : IEntityTypeConfiguration<LocationMetr
 {
     public void Configure(EntityTypeBuilder<LocationMetric> builder)
     {
+        builder.ToTable("LocationMetrics");
         builder.HasKey(x => x.Id);
 
         // Propriedades

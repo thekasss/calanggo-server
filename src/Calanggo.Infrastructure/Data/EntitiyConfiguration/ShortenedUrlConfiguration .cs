@@ -8,6 +8,7 @@ public class ShortenedUrlConfiguration : IEntityTypeConfiguration<ShortenedUrl>
 {
     public void Configure(EntityTypeBuilder<ShortenedUrl> builder)
     {
+        builder.ToTable("ShortenedUrls");
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.OriginalUrl)

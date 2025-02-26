@@ -8,6 +8,7 @@ public class ClickEventConfiguration : IEntityTypeConfiguration<ClickEvent>
 {
     public void Configure(EntityTypeBuilder<ClickEvent> builder)
     {
+        builder.ToTable("ClickEvents");
         builder.HasKey(x => x.Id);
 
         // propriedades obrigatórias

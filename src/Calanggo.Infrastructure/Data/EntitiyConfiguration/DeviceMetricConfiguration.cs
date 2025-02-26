@@ -9,6 +9,7 @@ public class DeviceMetricConfiguration : IEntityTypeConfiguration<DeviceMetric>
 {
     public void Configure(EntityTypeBuilder<DeviceMetric> builder)
     {
+        builder.ToTable("DeviceMetrics");
         builder.HasKey(x => x.Id);
 
         // propriedades
