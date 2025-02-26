@@ -5,10 +5,7 @@ using Calanggo.Application.Common.Results;
 using Calanggo.Application.Interfaces;
 using Calanggo.Application.UseCases.GetUrlStatistics;
 using Calanggo.Domain.Entities;
-using Calanggo.Domain.Interfaces.Repositories;
-using Calanggo.Infrastructure.Data.Context;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Calanggo.Infrastructure.Services;
@@ -101,15 +98,6 @@ public class UrlShortenerService : IUrlShortenerService
 
     #region [Private Methods]
 
-    private async Task<ShortenedUrl?> GetShortenedUrlFromCacheOrDatabase(string shortCode)
-    {
-        if (_memoryCacheService.TryGet(shortCode, out ShortenedUrl? shortenedUrl))
-            return shortenedUrl;
-
-        shortenedUrl ??= await _unitOfWork.ShortenedUrlRepository.FindAsync(entity => entity.ShortCode == shortCode);
-        return shortenedUrl;
-    }
-
     private static string GenerateShortCode()
     {
         using RandomNumberGenerator rng = RandomNumberGenerator.Create();
@@ -123,6 +111,15 @@ public class UrlShortenerService : IUrlShortenerService
         }
 
         return result.ToString();
+    }
+
+    private async Task<ShortenedUrl?> GetShortenedUrlFromCacheOrDatabase(string shortCode)
+    {
+        if (_memoryCacheService.TryGet(shortCode, out ShortenedUrl? shortenedUrl))
+            return shortenedUrl;
+
+        shortenedUrl ??= await _unitOfWork.ShortenedUrlRepository.GetByShortCodeAsync(shortCode);
+        return shortenedUrl;
     }
 
     private async Task UpdateUrlStatistics(ShortenedUrl shortenedUrl, string ipAddress, string userAgent, string referer)
