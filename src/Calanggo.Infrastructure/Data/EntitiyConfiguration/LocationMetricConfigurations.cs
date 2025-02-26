@@ -26,8 +26,7 @@ public class LocationMetricConfiguration : IEntityTypeConfiguration<LocationMetr
             .HasMaxLength(100);
             
         builder.Property(x => x.Clicks)
-            .IsRequired()
-            .HasDefaultValue(0);
+            .IsRequired();
 
         // // indices
         // builder.HasIndex(x => x.UrlStatisticsId);
