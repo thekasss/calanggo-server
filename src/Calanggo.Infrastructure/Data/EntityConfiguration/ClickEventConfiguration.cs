@@ -27,25 +27,25 @@ public class ClickEventConfiguration : IEntityTypeConfiguration<ClickEvent>
         builder.Property(x => x.Referer)
             .HasMaxLength(2048);
 
-        // // propriedades de localização
-        // builder.Property(x => x.Country)
-        //     .HasMaxLength(99);
+        // propriedades de localização
+        builder.Property(x => x.Country)
+            .HasMaxLength(99);
 
-        // builder.Property(x => x.Region)
-        //     .HasMaxLength(99);
+        builder.Property(x => x.Region)
+            .HasMaxLength(99);
 
-        // builder.Property(x => x.City)
-        //     .HasMaxLength(99);
+        builder.Property(x => x.City)
+            .HasMaxLength(99);
 
-        // // propriedades do dispositivo
-        // builder.Property(x => x.DeviceType)
-        //     .HasMaxLength(50);
+        // propriedades do dispositivo
+        builder.Property(x => x.DeviceType)
+            .HasMaxLength(50);
 
-        // builder.Property(x => x.Browser)
-        //     .HasMaxLength(50);
+        builder.Property(x => x.Browser)
+            .HasMaxLength(50);
 
-        // builder.Property(x => x.OperatingSystem)
-        //     .HasMaxLength(50);
+        builder.Property(x => x.OperatingSystem)
+            .HasMaxLength(50);
 
         // // indices
         // builder.HasIndex(x => x.UrlStatisticsId);

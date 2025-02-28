@@ -35,14 +35,14 @@ public class UrlStatisticsConfiguration : IEntityTypeConfiguration<UrlStatistics
             .HasForeignKey(x => x.UrlStatisticsId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        // builder.HasMany(x => x.LocationMetrics)
-        //     .WithOne(x => x.UrlStatistics)
-        //     .HasForeignKey(x => x.UrlStatisticsId)
-        //     .OnDelete(DeleteBehavior.Cascade);
+        builder.HasMany(x => x.LocationMetrics)
+            .WithOne(x => x.UrlStatistics)
+            .HasForeignKey(x => x.UrlStatisticsId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        // builder.HasMany(x => x.DeviceMetrics)
-        //     .WithOne(x => x.UrlStatistics)
-        //     .HasForeignKey(x => x.UrlStatisticsId)
-        //     .OnDelete(DeleteBehavior.Cascade);
+        builder.HasMany(x => x.DeviceMetrics)
+            .WithOne(x => x.UrlStatistics)
+            .HasForeignKey(x => x.UrlStatisticsId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
