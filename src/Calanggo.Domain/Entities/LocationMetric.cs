@@ -13,11 +13,9 @@ public class LocationMetric : IBaseEntity
 
     protected LocationMetric() { }
 
-    public LocationMetric(UrlStatistics statistics, ClickEvent clickEvent)
+    public LocationMetric(Guid urlStatisticsId, ClickEvent clickEvent)
     {
-        Id = Guid.NewGuid();
-        UrlStatistics = statistics;
-        UrlStatisticsId = statistics.Id;
+        UrlStatisticsId = urlStatisticsId;
 
         Country = clickEvent.Country;
         Region = clickEvent.Region;

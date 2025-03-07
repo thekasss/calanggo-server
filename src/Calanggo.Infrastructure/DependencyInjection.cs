@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
 using Calanggo.Application.Interfaces;
 using Calanggo.Domain.Interfaces.Repositories;
 using Calanggo.Infrastructure.Data.Context;

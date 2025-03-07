@@ -6,6 +6,7 @@ using Calanggo.Application.Interfaces;
 using Calanggo.Application.UseCases.GetUrlStatistics;
 using Calanggo.Domain.Entities;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Calanggo.Infrastructure.Services;
@@ -47,16 +48,16 @@ public class UrlShortenerService : IUrlShortenerService
     public async Task<Result<ShortenedUrl>> GetShortenedUrl(string shortCode, string ipAddress, string userAgent, string referer)
     {
         var shortenedUrl = await GetShortenedUrlFromCacheOrDatabase(shortCode);
-
         if (shortenedUrl is null || shortenedUrl.IsExpired())
         {
             _logger.LogError("The short code provided does not exist or has expired: {ShortCode}", shortCode);
             return Result<ShortenedUrl>.Failure(new Error(204));
         }
 
-        await UpdateUrlStatistics(shortenedUrl, ipAddress, userAgent, referer);
+        shortenedUrl.Statistics.AddClick(ipAddress, userAgent, referer);
         _memoryCacheService.Set(shortCode, shortenedUrl);
 
+        await _unitOfWork.Commit();
         return Result<ShortenedUrl>.Success(shortenedUrl);
     }
 
@@ -120,13 +121,6 @@ public class UrlShortenerService : IUrlShortenerService
 
         shortenedUrl ??= await _unitOfWork.ShortenedUrlRepository.GetByShortCodeAsync(shortCode);
         return shortenedUrl;
-    }
-
-    private async Task UpdateUrlStatistics(ShortenedUrl shortenedUrl, string ipAddress, string userAgent, string referer)
-    {
-        shortenedUrl.Statistics.AddClick(ipAddress, userAgent, referer);
-        _unitOfWork.UrlStatisticsRepository.Update(shortenedUrl.Statistics);
-        await _unitOfWork.Commit();
     }
 
     #endregion

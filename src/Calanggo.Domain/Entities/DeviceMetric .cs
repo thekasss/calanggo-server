@@ -12,11 +12,9 @@ public class DeviceMetric : IBaseEntity
 
     protected DeviceMetric() { }
 
-    public DeviceMetric(UrlStatistics statistics, ClickEvent clickEvent)
+    public DeviceMetric(Guid urlStatisticsId, ClickEvent clickEvent)
     {
-        Id = Guid.NewGuid();
-        UrlStatistics = statistics;
-        UrlStatisticsId = statistics.Id;
+        UrlStatisticsId = urlStatisticsId;
         
         DeviceType = clickEvent.DeviceType;
         Browser = clickEvent.Browser;

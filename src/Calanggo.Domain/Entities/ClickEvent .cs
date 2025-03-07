@@ -12,22 +12,20 @@ public class ClickEvent : IBaseEntity
     public string Referer { get; private set; }
 
     // Informações de localização
-    public string Country { get; private set; }
-    public string Region { get; private set; }
-    public string City { get; private set; }
+    public string Country { get; private set; } = "Unknown";
+    public string Region { get; private set; } = "Unknown";
+    public string City { get; private set; } = "Unknown";
 
     // Informações do dispositivo
-    public string DeviceType { get; private set; }
-    public string Browser { get; private set; }
-    public string OperatingSystem { get; private set; }
+    public string DeviceType { get; private set; } = "Unknown";
+    public string Browser { get; private set; } = "Unknown";
+    public string OperatingSystem { get; private set; } = "Unknown";
 
     protected ClickEvent() { }
 
-    public ClickEvent(UrlStatistics statistics, string ipAddress, string userAgent, string referer)
+    public ClickEvent(Guid urlStatisticsId, string ipAddress, string userAgent, string referer)
     {
-        Id = Guid.NewGuid();
-        UrlStatistics = statistics;
-        UrlStatisticsId = statistics.Id;
+        UrlStatisticsId = urlStatisticsId;
         ClickedAt = DateTime.UtcNow;
 
         IpAddress = ipAddress;

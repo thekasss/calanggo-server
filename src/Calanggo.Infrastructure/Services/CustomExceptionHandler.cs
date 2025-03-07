@@ -17,14 +17,11 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger, IHos
         _logger.LogError(exception, "Ocorreu um erro não tratado: {ErrorMessage}", exception.Message);
         ProblemDetails problemDetails = new()
         {
-            Status = 500, Detail = exception.Message, Instance = httpContext.Request.Path
+            Status = 500, Detail = exception.Message, 
+            Instance = httpContext.Request.Path
         };
-
-        if (_hostEnvironment.IsDevelopment())
-        {
-            problemDetails.Extensions["stackTrace"] = exception.StackTrace?.Trim();
-            problemDetails.Extensions["exceptionType"] = exception.GetType().Name;
-        }
+        
+        problemDetails.Extensions["exceptionType"] = exception.GetType().Name;
 
         httpContext.Response.StatusCode = 500;
         httpContext.Response.ContentType = "application/problem+json";
