@@ -5,10 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Calanggo.Infrastructure.Data.EntitiyConfiguration;
 
-public class DeviceMetricMap : IEntityTypeConfiguration<DeviceMetric>
+public class DeviceMetricConfiguration : IEntityTypeConfiguration<DeviceMetric>
 {
     public void Configure(EntityTypeBuilder<DeviceMetric> builder)
     {
+        builder.ToTable("DeviceMetrics");
         builder.HasKey(x => x.Id);
 
         // propriedades
@@ -24,12 +25,12 @@ public class DeviceMetricMap : IEntityTypeConfiguration<DeviceMetric>
             .IsRequired()
             .HasDefaultValue(0);
 
-        // indices
-        builder.HasIndex(x => x.UrlStatisticsId);
-        builder.HasIndex(x => new { x.DeviceType, x.Browser });
+        // // indices
+        // builder.HasIndex(x => x.UrlStatisticsId);
+        // builder.HasIndex(x => new { x.DeviceType, x.Browser });
         
-        // indice unico para evitar duplicatas
-        builder.HasIndex(x => new { x.UrlStatisticsId, x.DeviceType, x.Browser })
-            .IsUnique();
+        // // indice unico para evitar duplicatas
+        // builder.HasIndex(x => new { x.UrlStatisticsId, x.DeviceType, x.Browser })
+        //     .IsUnique();
     }
 }

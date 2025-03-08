@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
 using Calanggo.Application.Interfaces;
 using Calanggo.Domain.Interfaces.Repositories;
 using Calanggo.Infrastructure.Data.Context;
@@ -20,6 +19,7 @@ public static class DependencyInjection
     {
         services.AddDbContextConfig(configuration);
         services.AddRepositories();
+        services.AddScoped<UnitOfWork>();
         services.AddSerilogLogger();
         services.AddApplicationServices();
         services.AddExceptionHandler<CustomExceptionHandler>();
@@ -45,10 +45,16 @@ public static class DependencyInjection
     private static void AddDbContextConfig(this IServiceCollection services, IConfiguration configuration)
     {
 #if DEBUG
-        services.AddDbContext<CalanggoDbContext>(options => options.UseLazyLoadingProxies().UseInMemoryDatabase("CalanggoInMemoryDb"));
+        services.AddDbContext<CalanggoDbContext>(
+            options => options.EnableSensitiveDataLogging()
+                .UseLazyLoadingProxies()
+                .UseInMemoryDatabase("CalanggoInMemoryDb"));
 #else
         var connection = configuration.GetConnectionString("DefaultConnection");
-        services.AddDbContext<CalanggoDbContext>(options => options.UseLazyLoadingProxies().UseNpgsql(connection));
+        services.AddDbContext<CalanggoDbContext>(
+            options => options.EnableSensitiveDataLogging()
+                .UseLazyLoadingProxies()
+                .UseNpgsql(connection));
 #endif
     }
 
@@ -75,6 +81,7 @@ public static class DependencyInjection
     private static void AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IShortenedUrlRepository, ShortenedUrlRepository>();
+        services.AddScoped<IUrlStatisticsRepository, UrlStatisticsRepository>();
     }
 
     #endregion

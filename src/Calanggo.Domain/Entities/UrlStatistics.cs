@@ -22,9 +22,10 @@ public class UrlStatistics : IBaseEntity
 
     protected UrlStatistics() { }
 
-    public UrlStatistics(ShortenedUrl shortenedUrl) : this()
+    public UrlStatistics(ShortenedUrl shortenedUrl)
     {
         ArgumentNullException.ThrowIfNull(shortenedUrl);
+
         Id = Guid.NewGuid();
         ShortenedUrl = shortenedUrl;
         ShortenedUrlId = shortenedUrl.Id;
@@ -33,7 +34,7 @@ public class UrlStatistics : IBaseEntity
 
     public void AddClick(string ipAddress, string userAgent, string referer)
     {
-        var clickEvent = new ClickEvent(this, ipAddress, userAgent, referer);
+        var clickEvent = new ClickEvent(Id, ipAddress, userAgent, referer);
         ClickEvents.Add(clickEvent);
 
         TotalClicks++;
@@ -51,7 +52,7 @@ public class UrlStatistics : IBaseEntity
 
         if (metric == null)
         {
-            metric = new LocationMetric(this, clickEvent);
+            metric = new LocationMetric(Id, clickEvent);
             LocationMetrics.Add(metric);
         }
         else
@@ -67,7 +68,7 @@ public class UrlStatistics : IBaseEntity
 
         if (metric == null)
         {
-            metric = new DeviceMetric(this, clickEvent);
+            metric = new DeviceMetric(Id, clickEvent);
             DeviceMetrics.Add(metric);
         }
         else

@@ -10,14 +10,18 @@ public class CalanggoDbContext(DbContextOptions<CalanggoDbContext> options) : Db
     public DbSet<UrlStatistics> UrlStatistics { get; set; }
     public DbSet<DeviceMetric> DeviceMetrics { get; set; }
     public DbSet<LocationMetric> LocationMetrics { get; set; }
-
+    public DbSet<ClickEvent> ClickEvents { get; set; }
+        
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
         // OR:
 
-        modelBuilder.ApplyConfiguration(new ShortenedUrlConfiguration());
-        modelBuilder.ApplyConfiguration(new UrlStatisticsConfiguration());
+        // modelBuilder.ApplyConfiguration(new ShortenedUrlConfiguration());
+        // modelBuilder.ApplyConfiguration(new UrlStatisticsConfiguration());
+        // modelBuilder.ApplyConfiguration(new DeviceMetricConfiguration());
+        // modelBuilder.ApplyConfiguration(new LocationMetricConfiguration());
+        // modelBuilder.ApplyConfiguration(new ClickEventConfiguration());
         base.OnModelCreating(modelBuilder);
     }
 }

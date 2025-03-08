@@ -9,7 +9,7 @@ namespace Calanggo.API.Endpoints;
 
 public static class UrlShortenerEndpoint
 {
-    private const string _path = "/calango/api";
+    private const string _path = "/calanggo/api";
     public static IEndpointRouteBuilder AddUrlShortenerEndpoint(this IEndpointRouteBuilder endpoinBuilder)
     {
         RouteGroupBuilder urlShortenerEndpoint = endpoinBuilder.MapGroup(_path);
