@@ -28,12 +28,12 @@ public class ShortenedUrlConfiguration : IEntityTypeConfiguration<ShortenedUrl>
         builder.Property(x => x.CreatedBy)
             .HasMaxLength(256);
 
-        // // indices
-        // builder.HasIndex(x => x.CreatedAt);
+        // indices
+        builder.HasIndex(x => x.CreatedAt);
 
-        // builder.HasIndex(x => x.ShortCode)
-        //     .IsUnique();
-                
+        builder.HasIndex(x => x.ShortCode)
+            .IsUnique();
+
         // relacionamentos
         builder.HasOne(x => x.Statistics)
             .WithOne(x => x.ShortenedUrl)

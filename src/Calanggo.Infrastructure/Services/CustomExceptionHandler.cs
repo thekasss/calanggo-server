@@ -1,15 +1,13 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Calanggo.Infrastructure.Services;
 
-public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger, IHostEnvironment hostEnvironment)
+public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger)
     : IExceptionHandler
 {
-    private readonly IHostEnvironment _hostEnvironment = hostEnvironment;
     private readonly ILogger<CustomExceptionHandler> _logger = logger;
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
@@ -17,13 +15,15 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger, IHos
         _logger.LogError(exception, "Ocorreu um erro não tratado: {ErrorMessage}", exception.Message);
         ProblemDetails problemDetails = new()
         {
-            Status = 500, Detail = exception.Message, 
-            Instance = httpContext.Request.Path
+            Status = httpContext.Response.StatusCode,
+            Detail = exception.Message,
+            Instance = httpContext.Response.Headers.Referer,
         };
-        
-        problemDetails.Extensions["exceptionType"] = exception.GetType().Name;
 
-        httpContext.Response.StatusCode = 500;
+        problemDetails.Extensions["exceptionType"] = exception.GetType().Name;
+        problemDetails.Extensions["traceId"] = httpContext.TraceIdentifier;
+
+        httpContext.Response.StatusCode = httpContext.Response.StatusCode;
         httpContext.Response.ContentType = "application/problem+json";
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
         return true;

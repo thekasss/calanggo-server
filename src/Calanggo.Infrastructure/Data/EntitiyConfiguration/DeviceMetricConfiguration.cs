@@ -16,21 +16,21 @@ public class DeviceMetricConfiguration : IEntityTypeConfiguration<DeviceMetric>
         builder.Property(x => x.DeviceType)
             .IsRequired()
             .HasMaxLength(50);
-            
+
         builder.Property(x => x.Browser)
             .IsRequired()
             .HasMaxLength(50);
-            
+
         builder.Property(x => x.Clicks)
             .IsRequired()
             .HasDefaultValue(0);
 
-        // // indices
-        // builder.HasIndex(x => x.UrlStatisticsId);
-        // builder.HasIndex(x => new { x.DeviceType, x.Browser });
-        
-        // // indice unico para evitar duplicatas
-        // builder.HasIndex(x => new { x.UrlStatisticsId, x.DeviceType, x.Browser })
-        //     .IsUnique();
+        // indices
+        builder.HasIndex(x => x.UrlStatisticsId);
+        builder.HasIndex(x => new { x.DeviceType, x.Browser });
+
+        // indice unico para evitar duplicatas
+        builder.HasIndex(x => new { x.UrlStatisticsId, x.DeviceType, x.Browser })
+            .IsUnique();
     }
 }

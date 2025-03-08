@@ -20,16 +20,11 @@ public class UrlStatisticsConfiguration : IEntityTypeConfiguration<UrlStatistics
         builder.Property(x => x.CreatedAt)
             .IsRequired();
 
-        // // indices
-        // builder.HasIndex(x => x.ShortenedUrlId);
-        // builder.HasIndex(x => x.LastClickedAt);
+        // indices
+        builder.HasIndex(x => x.ShortenedUrlId);
+        builder.HasIndex(x => x.LastClickedAt);
 
         // // relacionamentos
-        // builder.HasOne(x => x.ShortenedUrl)
-        //     .WithOne(x => x.Statistics)
-        //     .HasForeignKey<UrlStatistics>(x => x.ShortenedUrlId)
-        //     .OnDelete(DeleteBehavior.Cascade);
-
         builder.HasMany(x => x.ClickEvents)
             .WithOne(x => x.UrlStatistics)
             .HasForeignKey(x => x.UrlStatisticsId)

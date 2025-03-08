@@ -6,7 +6,6 @@ using Calanggo.Application.Interfaces;
 using Calanggo.Application.UseCases.GetUrlStatistics;
 using Calanggo.Domain.Entities;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Calanggo.Infrastructure.Services;
@@ -29,7 +28,6 @@ public class UrlShortenerService : IUrlShortenerService
     public async Task<Result<ShortenedUrl>> CreateShortenedUrl(string originalUrl, DateTime? expiresAt = null)
     {
         expiresAt ??= DateTime.UtcNow.AddDays(7);
-
         if (!Uri.TryCreate(originalUrl, UriKind.Absolute, out _))
         {
             _logger.LogError("The provided URL is not valid: {OriginalUrl}", originalUrl);
@@ -55,7 +53,7 @@ public class UrlShortenerService : IUrlShortenerService
         }
 
         shortenedUrl.Statistics.AddClick(ipAddress, userAgent, referer);
-        _memoryCacheService.Set(shortCode, shortenedUrl);
+        _memoryCacheService.Set(shortCode, shortenedUrl, TimeSpan.FromMinutes(10));
 
         await _unitOfWork.Commit();
         return Result<ShortenedUrl>.Success(shortenedUrl);
