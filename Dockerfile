@@ -11,4 +11,4 @@ WORKDIR /app
 COPY --from=build-stage /app ./
 
 EXPOSE 8080
-ENTRYPOINT [ "dotnet", "Calango.API.dll" ]
+ENTRYPOINT [ "dotnet", "Calanggo.API.dll" ]
