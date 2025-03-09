@@ -1,5 +1,7 @@
 using System.Text.RegularExpressions;
+
 using Calanggo.Domain.Interfaces;
+
 using Microsoft.Extensions.Logging;
 
 namespace Calanggo.Infrastructure.Services;
@@ -31,60 +33,43 @@ public class UserAgentParserService(ILogger<UserAgentParserService> logger) : IU
         }
     }
 
-    # region [Private Methods]
+    #region [Private Methods]
 
     private string DetectDeviceType(string userAgent)
     {
-        if (Regex.IsMatch(userAgent, @"(?i)tablet|ipad"))
-            return "Tablet";
-
-        if (Regex.IsMatch(userAgent, @"(?i)mobile|android|iphone|ipod"))
-            return "Mobile";
-
-        return "Desktop";
+        return userAgent switch
+        {
+            var ua when Regex.IsMatch(ua, @"(?i)tablet|ipad") => "Tablet",
+            var ua when Regex.IsMatch(ua, @"(?i)mobile|android|iphone|ipod") => "Mobile",
+            _ => "Desktop"
+        };
     }
 
     private string DetectBrowser(string userAgent)
     {
-        if (Regex.IsMatch(userAgent, @"(?i)chrome") && !Regex.IsMatch(userAgent, @"(?i)edg|opr"))
-            return "Chrome";
-
-        if (Regex.IsMatch(userAgent, @"(?i)firefox"))
-            return "Firefox";
-
-        if (Regex.IsMatch(userAgent, @"(?i)safari") && !Regex.IsMatch(userAgent, @"(?i)chrome"))
-            return "Safari";
-
-        if (Regex.IsMatch(userAgent, @"(?i)edg"))
-            return "Edge";
-
-        if (Regex.IsMatch(userAgent, @"(?i)opr|opera"))
-            return "Opera";
-
-        if (Regex.IsMatch(userAgent, @"(?i)msie|trident"))
-            return "Internet Explorer";
-
-        return "Other";
+        return userAgent switch
+        {
+            var ua when Regex.IsMatch(ua, @"(?i)chrome") && !Regex.IsMatch(ua, @"(?i)edg|opr") => "Chrome",
+            var ua when Regex.IsMatch(ua, @"(?i)firefox") => "Firefox",
+            var ua when Regex.IsMatch(ua, @"(?i)safari") && !Regex.IsMatch(ua, @"(?i)chrome") => "Safari",
+            var ua when Regex.IsMatch(ua, @"(?i)edg") => "Edge",
+            var ua when Regex.IsMatch(ua, @"(?i)opr|opera") => "Opera",
+            var ua when Regex.IsMatch(ua, @"(?i)msie|trident") => "Internet Explorer",
+            _ => "Other"
+        };
     }
 
     private string DetectOperatingSystem(string userAgent)
     {
-        if (Regex.IsMatch(userAgent, @"(?i)windows"))
-            return "Windows";
-
-        if (Regex.IsMatch(userAgent, @"(?i)android"))
-            return "Android";
-
-        if (Regex.IsMatch(userAgent, @"(?i)iphone|ipad|ipod|ios"))
-            return "iOS";
-
-        if (Regex.IsMatch(userAgent, @"(?i)mac os|macintosh"))
-            return "macOS";
-
-        if (Regex.IsMatch(userAgent, @"(?i)linux"))
-            return "Linux";
-
-        return "Other";
+        return userAgent switch
+        {
+            var ua when Regex.IsMatch(ua, @"(?i)windows") => "Windows",
+            var ua when Regex.IsMatch(ua, @"(?i)android") => "Android",
+            var ua when Regex.IsMatch(ua, @"(?i)iphone|ipad|ipod|ios") => "iOS",
+            var ua when Regex.IsMatch(ua, @"(?i)mac os|macintosh") => "macOS",
+            var ua when Regex.IsMatch(ua, @"(?i)linux") => "Linux",
+            _ => "Other"
+        };
     }
 
     # endregion
