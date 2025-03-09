@@ -12,8 +12,6 @@ namespace Calanggo.Infrastructure.Services;
 
 public class UrlShortenerService : IUrlShortenerService
 {
-    private const string AllowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    private const int ShortCodeLength = 7;
     private readonly ILogger<UrlShortenerService> _logger;
     private readonly UnitOfWork _unitOfWork;
     private readonly IMemoryCacheService _memoryCacheService;
@@ -27,16 +25,7 @@ public class UrlShortenerService : IUrlShortenerService
 
     public async Task<Result<ShortenedUrl>> CreateShortenedUrl(string originalUrl, DateTime? expiresAt = null)
     {
-        expiresAt ??= DateTime.UtcNow.AddDays(7);
-        if (!Uri.TryCreate(originalUrl, UriKind.Absolute, out _))
-        {
-            _logger.LogError("The provided URL is not valid: {OriginalUrl}", originalUrl);
-            return Result<ShortenedUrl>.Failure(new Error(400, "The provided URL is not valid."));
-        }
-
-        string shortCode = GenerateShortCode();
-        ShortenedUrl shortenedUrl = new(originalUrl, shortCode, expiresAt: expiresAt);
-
+        ShortenedUrl shortenedUrl = new(originalUrl, expiresAt: expiresAt);
         await _unitOfWork.ShortenedUrlRepository.AddAsync(shortenedUrl);
         await _unitOfWork.Commit();
 
@@ -62,7 +51,6 @@ public class UrlShortenerService : IUrlShortenerService
     public async Task<Result<UrlStatisticsResponse>> GetUrlStatistics(string shortCode)
     {
         var shortenedUrl = await GetShortenedUrlFromCacheOrDatabase(shortCode);
-
         if (shortenedUrl is null)
         {
             _logger.LogError("The short code provided does not exist: {ShortCode}", shortCode);
@@ -96,21 +84,6 @@ public class UrlShortenerService : IUrlShortenerService
     }
 
     #region [Private Methods]
-
-    private static string GenerateShortCode()
-    {
-        using RandomNumberGenerator rng = RandomNumberGenerator.Create();
-        StringBuilder result = new(ShortCodeLength);
-        byte[] bytes = new byte[ShortCodeLength];
-
-        rng.GetBytes(bytes);
-        for (int i = 0; i < ShortCodeLength; i++)
-        {
-            result.Append(AllowedChars[bytes[i] % AllowedChars.Length]);
-        }
-
-        return result.ToString();
-    }
 
     private async Task<ShortenedUrl?> GetShortenedUrlFromCacheOrDatabase(string shortCode)
     {
