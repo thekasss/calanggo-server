@@ -2,8 +2,8 @@ namespace Calanggo.Application.UseCases.GetUrlStatistics;
 
 public record LocationMetricResponse
 {
-    public string Country { get; set; } = string.Empty;
-    public string Region { get; set; } = string.Empty;
-    public string City { get; set; } = string.Empty;
+    public required string Country { get; set; }
+    public required string Region { get; set; }
+    public required string City { get; set; }
     public int Clicks { get; set; }
 }
