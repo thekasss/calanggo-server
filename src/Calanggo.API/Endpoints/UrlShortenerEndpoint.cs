@@ -1,5 +1,6 @@
 using Calanggo.Application.Common.Results;
 using Calanggo.Application.Interfaces;
+using Calanggo.Application.UseCases.GetUrlStatistics;
 using Calanggo.Application.UseCases.ShortenUrl;
 using Calanggo.Domain.Entities;
 
@@ -17,14 +18,17 @@ public static class UrlShortenerEndpoint
         // POST /url-shortener/shorten
         urlShortenerEndpoint.MapPost("/shorten", HandleShortenUrl)
             .WithDescription("The endpoint to shorten a URL")
-            .Produces(StatusCodes.Status201Created);
+            .Produces<ShortenUrlResponse>(StatusCodes.Status201Created);
 
         // GET /url-shortener/{shortCode}
         urlShortenerEndpoint.MapGet("/shorten/{shortCode}", HandleGetShortenedUrl)
+            .Produces(StatusCodes.Status301MovedPermanently)
             .WithDescription("The endpoint to get the original URL from a shortened URL");
 
+        // GET /url-shortener/{shortCode}/statistics
         urlShortenerEndpoint.MapGet("/shorten/{shortCode}/statistics", HandleGetUrlStatistics)
-           .WithDescription("The endpoint to get statistics for a shortened URL");
+            .Produces<UrlStatisticsResponse>(StatusCodes.Status200OK)
+            .WithDescription("The endpoint to get statistics for a shortened URL");
 
         return urlShortenerEndpoint;
     }
@@ -61,7 +65,7 @@ public static class UrlShortenerEndpoint
                 title: "An error occurred while getting the original URL",
                 statusCode: result.Error!.Code,
                 detail: result.Error!.Message)
-            : Results.Redirect(result.Value!.OriginalUrl, true);
+            : Results.Redirect(result.Value!.OriginalUrl, permanent: true);
     }
 
     // GET /url-shortener/{shortCode}/statistics

@@ -49,7 +49,7 @@ public class UrlShortenerService : IUrlShortenerService
         if (shortenedUrl is null || shortenedUrl.IsExpired())
         {
             _logger.LogError("The short code provided does not exist or has expired: {ShortCode}", shortCode);
-            return Result<ShortenedUrl>.Failure(new Error(204));
+            return Result<ShortenedUrl>.Failure(new Error(404, "Shortened URL not found or has expired"));
         }
 
         shortenedUrl.Statistics.AddClick(ipAddress, userAgent, referer);
