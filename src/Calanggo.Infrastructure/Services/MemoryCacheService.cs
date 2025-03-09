@@ -3,7 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Calanggo.Infrastructure.Services;
 
-public class MemoryCacheService(IMemoryCache memoryCache) : IMemoryCacheService
+public class MemoryCacheService(IMemoryCache memoryCache) : ICacheService
 {
     private readonly MemoryCacheEntryOptions _defaultCacheOptions = new MemoryCacheEntryOptions()
         .SetSlidingExpiration(TimeSpan.FromMinutes(10))

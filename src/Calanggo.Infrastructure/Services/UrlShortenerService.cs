@@ -8,18 +8,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Calanggo.Infrastructure.Services;
 
-public class UrlShortenerService : IUrlShortenerService
+public class UrlShortenerService(UnitOfWork unitOfWork, ICacheService memoryCacheService, ILogger<UrlShortenerService> logger)
+    : IUrlShortenerService
 {
-    private readonly ILogger<UrlShortenerService> _logger;
-    private readonly UnitOfWork _unitOfWork;
-    private readonly IMemoryCacheService _memoryCacheService;
-
-    public UrlShortenerService(UnitOfWork unitOfWork, IMemoryCacheService memoryCacheService, ILogger<UrlShortenerService> logger)
-    {
-        _unitOfWork = unitOfWork;
-        _logger = logger;
-        _memoryCacheService = memoryCacheService;
-    }
+    private readonly ILogger<UrlShortenerService> _logger = logger;
+    private readonly UnitOfWork _unitOfWork = unitOfWork;
+    private readonly ICacheService _cacheService = memoryCacheService;
 
     public async Task<Result<ShortenedUrl>> CreateShortenedUrl(string originalUrl, DateTime? expiresAt = null)
     {
@@ -40,7 +34,7 @@ public class UrlShortenerService : IUrlShortenerService
         }
 
         shortenedUrl.Statistics.AddClick(ipAddress, userAgent, referer);
-        _memoryCacheService.Set(shortCode, shortenedUrl, TimeSpan.FromMinutes(10));
+        _cacheService.Set(shortCode, shortenedUrl, TimeSpan.FromMinutes(10));
 
         await _unitOfWork.Commit();
         return Result<ShortenedUrl>.Success(shortenedUrl);
@@ -85,7 +79,7 @@ public class UrlShortenerService : IUrlShortenerService
 
     private async Task<ShortenedUrl?> GetShortenedUrlFromCacheOrDatabase(string shortCode)
     {
-        if (_memoryCacheService.TryGet(shortCode, out ShortenedUrl? shortenedUrl))
+        if (_cacheService.TryGet(shortCode, out ShortenedUrl? shortenedUrl))
             return shortenedUrl;
 
         shortenedUrl ??= await _unitOfWork.ShortenedUrlRepository.GetByShortCodeAsync(shortCode);
