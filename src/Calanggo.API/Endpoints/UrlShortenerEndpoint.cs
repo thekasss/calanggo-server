@@ -51,13 +51,11 @@ public static class UrlShortenerEndpoint
     // GET /url-shortener/{shortCode}
     private static async Task<IResult> HandleGetShortenedUrl(HttpContext context, IUrlShortenerService urlShortenerService, string shortCode)
     {
-        var clientIp = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        var clientIp = context.Connection.RemoteIpAddress?.ToString()!;
         var userAgent = context.Request.Headers.UserAgent.ToString();
         var referer = context.Request.Headers.Referer.ToString();
 
         Result<ShortenedUrl> result = await urlShortenerService.GetShortenedUrl(shortCode, clientIp, userAgent, referer);
-
-        // Result<ShortenedUrl> result = await urlShortenerService.GetShortenedUrl(shortCode);
         return result.IsSuccess == false
             ? Results.Problem(
                 title: "An error occurred while getting the original URL",
@@ -70,7 +68,7 @@ public static class UrlShortenerEndpoint
     private static async Task<IResult> HandleGetUrlStatistics(IUrlShortenerService urlShortenerService, string shortCode)
     {
         var result = await urlShortenerService.GetUrlStatistics(shortCode);
-        return !result.IsSuccess
+        return result.IsSuccess == false
             ? Results.Problem(
                 title: "An error occurred while getting URL statistics",
                 statusCode: result.Error!.Code,
