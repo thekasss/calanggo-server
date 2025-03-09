@@ -3,17 +3,26 @@ using Calanggo.Application.Interfaces;
 using Calanggo.Application.Interfaces.CacheService;
 using Calanggo.Application.UseCases.GetUrlStatistics;
 using Calanggo.Domain.Entities;
+using Calanggo.Domain.Factories;
 
 using Microsoft.Extensions.Logging;
 
 namespace Calanggo.Infrastructure.Services;
 
-public class UrlShortenerService(UnitOfWork unitOfWork, ICacheService memoryCacheService, ILogger<UrlShortenerService> logger)
-    : IUrlShortenerService
+public class UrlShortenerService : IUrlShortenerService
 {
-    private readonly ILogger<UrlShortenerService> _logger = logger;
-    private readonly UnitOfWork _unitOfWork = unitOfWork;
-    private readonly ICacheService _cacheService = memoryCacheService;
+    private readonly ILogger<UrlShortenerService> _logger;
+    private readonly UnitOfWork _unitOfWork;
+    private readonly ICacheService _cacheService;
+    private readonly ClickEventFactory _clickEventFactory;
+
+    public UrlShortenerService(UnitOfWork unitOfWork, ICacheService memoryCacheService, ILogger<UrlShortenerService> logger, ClickEventFactory clickEventFactory)
+    {
+        _logger = logger;
+        _unitOfWork = unitOfWork;
+        _cacheService = memoryCacheService;
+        _clickEventFactory = clickEventFactory;
+    }
 
     public async Task<Result<ShortenedUrl>> CreateShortenedUrl(string originalUrl, DateTime? expiresAt = null)
     {
@@ -33,7 +42,8 @@ public class UrlShortenerService(UnitOfWork unitOfWork, ICacheService memoryCach
             return Result<ShortenedUrl>.Failure(new Error(404, "Shortened URL not found or has expired"));
         }
 
-        shortenedUrl.Statistics.AddClick(ipAddress, userAgent, referer);
+        var clickEvent = _clickEventFactory.Create(shortenedUrl.Statistics.Id, ipAddress, userAgent, referer);
+        shortenedUrl.Statistics.AddClick(clickEvent);
         _cacheService.Set(shortCode, shortenedUrl, TimeSpan.FromMinutes(10));
 
         await _unitOfWork.Commit();
@@ -49,29 +59,7 @@ public class UrlShortenerService(UnitOfWork unitOfWork, ICacheService memoryCach
             return Result<UrlStatisticsResponse>.Failure(new Error(404, "URL not found"));
         }
 
-        var statistics = shortenedUrl.Statistics;
-
-        // TODO: Criar um método para mapear a entidade para a resposta ou utilizar um mapeador
-        var response = new UrlStatisticsResponse
-        {
-            TotalClicks = statistics.TotalClicks,
-            LastClickedAt = statistics.LastClickedAt,
-            CreatedAt = statistics.CreatedAt,
-            LocationMetrics = [.. statistics.LocationMetrics.Select(lm => new LocationMetricResponse
-            {
-                Country = lm.Country,
-                Region = lm.Region,
-                City = lm.City,
-                Clicks = lm.Clicks
-            })],
-            DeviceMetrics = [.. statistics.DeviceMetrics.Select(dm => new DeviceMetricResponse
-            {
-                DeviceType = dm.DeviceType,
-                Browser = dm.Browser,
-                Clicks = dm.Clicks
-            })]
-        };
-
+        var response = new UrlStatisticsResponse().FromStatistics(shortenedUrl.Statistics);
         return Result<UrlStatisticsResponse>.Success(response);
     }
 

@@ -1,7 +1,5 @@
 using System.Text.RegularExpressions;
-
 using Calanggo.Domain.Interfaces;
-
 using Microsoft.Extensions.Logging;
 
 namespace Calanggo.Infrastructure.Services;
@@ -55,7 +53,7 @@ public class UserAgentParserService(ILogger<UserAgentParserService> logger) : IU
             var ua when Regex.IsMatch(ua, @"(?i)edg") => "Edge",
             var ua when Regex.IsMatch(ua, @"(?i)opr|opera") => "Opera",
             var ua when Regex.IsMatch(ua, @"(?i)msie|trident") => "Internet Explorer",
-            _ => "Other"
+            _ => "Unknown"
         };
     }
 
@@ -68,7 +66,7 @@ public class UserAgentParserService(ILogger<UserAgentParserService> logger) : IU
             var ua when Regex.IsMatch(ua, @"(?i)iphone|ipad|ipod|ios") => "iOS",
             var ua when Regex.IsMatch(ua, @"(?i)mac os|macintosh") => "macOS",
             var ua when Regex.IsMatch(ua, @"(?i)linux") => "Linux",
-            _ => "Other"
+            _ => "Unknown"
         };
     }
 
