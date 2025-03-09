@@ -40,7 +40,12 @@ public static class DependencyInjection
     private static void AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IUrlShortenerService, UrlShortenerService>();
-        services.AddSingleton<IMemoryCacheService, MemoryCacheService>();
+
+#if DEBUG || TEST
+        services.AddSingleton<ICacheService, MemoryCacheService>();
+#else
+        // services.AddSingleton<ICacheService, RedisCacheService>();
+#endif
     }
 
     private static void AddDbContextConfig(this IServiceCollection services, IConfiguration configuration)
