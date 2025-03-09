@@ -11,6 +11,7 @@ using Serilog;
 using Serilog.Events;
 using Calanggo.Application.Interfaces.Repositories;
 using Calanggo.Application.Interfaces.CacheService;
+using Calanggo.Domain.Factories;
 
 namespace Calanggo.Infrastructure;
 
@@ -25,9 +26,15 @@ public static class DependencyInjection
         services.AddApplicationServices();
         services.AddExceptionHandler<CustomExceptionHandler>();
         services.AddCors();
+        services.AddFactories();
     }
 
     #region [Private Methods]
+
+    private static void AddFactories(this IServiceCollection services)
+    {
+        services.AddScoped<ClickEventFactory>();
+    }
 
     private static void AddCors(this IServiceCollection services)
     {
