@@ -3,18 +3,18 @@ using System.Text.Json;
 
 using Calanggo.Domain.Interfaces;
 using Calanggo.Infrastructure.Configuration;
+using Calanggo.Application.Interfaces.CacheService;
 
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Calanggo.Infrastructure.Services;
 
-public class LocationParserService(HttpClient httpClient, IMemoryCache cache, ILogger<LocationParserService> logger, IOptions<LocationParserOptions> options)
+public class LocationParserService(HttpClient httpClient, ICacheService cacheService, ILogger<LocationParserService> logger, IOptions<LocationParserOptions> options)
     : ILocationParserService
 {
     private readonly HttpClient _httpClient = httpClient;
-    private readonly IMemoryCache _cache = cache;
+    private readonly ICacheService _cacheService = cacheService;
     private readonly ILogger<LocationParserService> _logger = logger;
     private readonly LocationParserOptions _options = options.Value;
 
@@ -26,10 +26,8 @@ public class LocationParserService(HttpClient httpClient, IMemoryCache cache, IL
         if (string.IsNullOrEmpty(ipAddress) || ipAddress == "127.0.0.1" || ipAddress == "::1")
             return ("Local", "Local", "Local");
 
-
-        // Verify if we have this IP in cache
         string cacheKey = $"IP_GEO_{ipAddress}";
-        if (_cache.TryGetValue(cacheKey, out (string Country, string Region, string City) cachedLocation))
+        if (_cacheService.TryGet(cacheKey, out (string Country, string Region, string City) cachedLocation))
         {
             _logger.LogDebug("IP location found in cache for {IpAddress}", ipAddress);
             return cachedLocation;
@@ -58,9 +56,8 @@ public class LocationParserService(HttpClient httpClient, IMemoryCache cache, IL
             {
                 var location = await FetchLocationAsync(ipAddress, cancellationToken);
 
-                // cache the result
                 string cacheKey = $"IP_GEO_{ipAddress}";
-                _cache.Set(cacheKey, location, _options.CacheExpirationTime);
+                _cacheService.Set(cacheKey, location, _options.CacheExpirationTime);
 
                 return location;
             }
