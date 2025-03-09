@@ -12,14 +12,14 @@ public class ClickEvent : IBaseEntity
     public string Referer { get; private set; }
 
     // Informações de localização
-    public string Country { get; private set; } = "Unknown";
-    public string Region { get; private set; } = "Unknown";
-    public string City { get; private set; } = "Unknown";
+    public string Country { get; private set; }
+    public string Region { get; private set; }
+    public string City { get; private set; }
 
     // Informações do dispositivo
-    public string DeviceType { get; private set; } = "Unknown";
-    public string Browser { get; private set; } = "Unknown";
-    public string OperatingSystem { get; private set; } = "Unknown";
+    public string DeviceType { get; private set; }
+    public string Browser { get; private set; }
+    public string OperatingSystem { get; private set; }
 
     protected ClickEvent() { }
 
@@ -31,21 +31,19 @@ public class ClickEvent : IBaseEntity
         IpAddress = ipAddress;
         UserAgent = userAgent;
         Referer = referer;
-
-        // TODO: implementar logica para obter informações de dispositivo
-        ParseUserAgent(userAgent);
-
-        // TODO: implementar logica para obter informações de localização
-        ParseLocation(ipAddress);
     }
 
-    private void ParseUserAgent(string userAgent)
+    public void SetLocation(string country, string region, string city)
     {
-        // parser
+        Country = country;
+        Region = region;
+        City = city;
     }
 
-    private void ParseLocation(string ipAddress)
+    public void SetDeviceInformation(string deviceType, string browser, string operatingSystem)
     {
-
+        DeviceType = deviceType;
+        Browser = browser;
+        OperatingSystem = operatingSystem;
     }
 }

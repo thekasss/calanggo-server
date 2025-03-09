@@ -32,9 +32,8 @@ public class UrlStatistics : IBaseEntity
         CreatedAt = DateTime.UtcNow;
     }
 
-    public void AddClick(string ipAddress, string userAgent, string referer)
+    public void AddClick(ClickEvent clickEvent)
     {
-        var clickEvent = new ClickEvent(Id, ipAddress, userAgent, referer);
         ClickEvents.Add(clickEvent);
 
         TotalClicks++;
