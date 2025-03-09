@@ -1,5 +1,5 @@
+using Calanggo.Application.Interfaces.CacheService;
 using Microsoft.Extensions.Caching.Memory;
-using Calanggo.Application.Interfaces;
 
 namespace Calanggo.Infrastructure.Services;
 

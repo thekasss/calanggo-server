@@ -3,13 +3,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Calanggo.Application.Interfaces;
-using Calanggo.Domain.Interfaces.Repositories;
 using Calanggo.Infrastructure.Data.Context;
 using Calanggo.Infrastructure.Data.Repositories;
 using Calanggo.Infrastructure.Services;
 
 using Serilog;
 using Serilog.Events;
+using Calanggo.Application.Interfaces.Repositories;
+using Calanggo.Application.Interfaces.CacheService;
 
 namespace Calanggo.Infrastructure;
 

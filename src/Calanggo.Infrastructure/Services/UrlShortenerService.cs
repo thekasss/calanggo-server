@@ -1,8 +1,6 @@
-using System.Security.Cryptography;
-using System.Text;
-
 using Calanggo.Application.Common.Results;
 using Calanggo.Application.Interfaces;
+using Calanggo.Application.Interfaces.CacheService;
 using Calanggo.Application.UseCases.GetUrlStatistics;
 using Calanggo.Domain.Entities;
 

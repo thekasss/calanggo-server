@@ -1,4 +1,4 @@
-namespace Calanggo.Application.Interfaces;
+namespace Calanggo.Application.Interfaces.CacheService;
 
 public interface ICacheService
 {

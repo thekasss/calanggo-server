@@ -1,4 +1,4 @@
-using Calanggo.Domain.Interfaces.Repositories;
+using Calanggo.Application.Interfaces.Repositories;
 using Calanggo.Infrastructure.Data.Context;
 
 namespace Calanggo.Infrastructure.Services;

@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 
 using Calanggo.Domain.Entities;
 
-namespace Calanggo.Domain.Interfaces.Repositories;
+namespace Calanggo.Application.Interfaces.Repositories;
 
 public interface IRepository<TEntity> where TEntity : class, IBaseEntity
 {

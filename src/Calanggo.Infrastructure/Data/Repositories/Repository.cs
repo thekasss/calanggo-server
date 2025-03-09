@@ -1,8 +1,8 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Calanggo.Domain.Entities;
-using Calanggo.Domain.Interfaces.Repositories;
 using Calanggo.Infrastructure.Data.Context;
+using Calanggo.Application.Interfaces.Repositories;
 
 namespace Calanggo.Infrastructure.Data.Repositories;
 
